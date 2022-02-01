@@ -14,9 +14,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.swing.text.html.ListView;
-
 import core.Connection;
 import core.DTNHost;
 import core.Message;
@@ -102,15 +99,45 @@ public class SprayAndWaitUtilityRouter extends SprayAndWaitRouter{
          for (Connection con : getConnections()){
              //get reference to the router of the other node
              DTNHost other = con.getOtherNode(getHost());
-             SprayAndWaitUtilityRouter otheRouter = (SprayAndWaitUtilityRouter)other.getRouter();
-            if(otheRouter.isTransferring()){
+             SprayAndWaitUtilityRouter othRouter = (SprayAndWaitUtilityRouter)other.getRouter();
+            if(othRouter.isTransferring()){
                 continue;
                 //skip hosts that are transferring
             }
+            for(Message m :msgCollection){
+                if(othRouter.hasMessage(m.getId())){
+                    continue;
+                    //skip messages that the other one has
+                }
+
+                int destination = m.getTo().getAddress();
+                if(getCopiesLeft(m) > 1 && othRouter.getUtility(destination) > getUtility(destination)){
+                    //the other node has higher utility
+                    messages.add(new Tuple<Message,Connection>(m,con));
+                }
+            }
              
+         }
+
+         if(messages.isEmpty()){
+             return null;
          }
         return tryMessagesForConnected(messages);
         //try to send
+    }
+
+    protected int getUtility(int address){
+        int utility = 0;
+        if(utilities.containsKey(address)){
+            utility = utilities.get(address);
+        }
+        return utility;
+    }
+
+    protected int getCopiesLeft(Message m){
+        Integer nrofCopies = (Integer)m.getProperty(MSG_COUNT_PROPERTY);
+        assert nrofCopies  != null: "SnWU message"+ m +"didnt javenr of copies property!";
+        return nrofCopies;
     }
 
 }
