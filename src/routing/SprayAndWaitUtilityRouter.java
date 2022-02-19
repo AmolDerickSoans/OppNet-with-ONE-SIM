@@ -39,7 +39,8 @@ public class SprayAndWaitUtilityRouter extends SprayAndWaitRouter{
         return new SprayAndWaitUtilityRouter(this);
     }
     
-    public void changedConncetion(Connection con){
+    @Override
+    public void changedConnection(Connection con){
         super.changedConnection(con);
 
         if(con.isUp()){
@@ -59,7 +60,7 @@ public class SprayAndWaitUtilityRouter extends SprayAndWaitRouter{
             utilities.put(otherAddress,nContacts +1);
         }
     }
-
+    //replication logic
     @Override
     public void update(){
         super.update();
@@ -136,7 +137,7 @@ public class SprayAndWaitUtilityRouter extends SprayAndWaitRouter{
 
     protected int getCopiesLeft(Message m){
         Integer nrofCopies = (Integer)m.getProperty(MSG_COUNT_PROPERTY);
-        assert nrofCopies  != null: "SnWU message"+ m +"didnt javenr of copies property!";
+        assert nrofCopies  != null: "SnWU message"+ m +"didnt have nr of copies property!";
         return nrofCopies;
     }
 

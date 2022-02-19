@@ -3,7 +3,7 @@
 #
 
 ## Scenario settings
-Scenario.name = EpidemicWithScore_scenario
+Scenario.name = Spray&WaitUtility_scenario
 Scenario.simulateConnections = true
 Scenario.updateInterval = 0.1
 # 43200s == 12h
@@ -51,8 +51,8 @@ Scenario.nrofHostGroups = 6
 
 
 # Common settings for all groups
-Group.movementModel = ShortestPathMapBasedMovement
-Group.router = EpidemicRouterWithScore
+Group.movementModel = RandomWalk
+Group.router = SprayAndWaitUtilityRouter
 Group.bufferSize = 10M
 Group.waitTime = 0, 120
 # All nodes have the bluetooth interface

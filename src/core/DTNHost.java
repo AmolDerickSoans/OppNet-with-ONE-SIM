@@ -7,6 +7,7 @@ package core;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 
 import movement.MovementModel;
 import movement.Path;
@@ -35,6 +36,8 @@ public class DTNHost implements Comparable<DTNHost> {
 	private List<MovementListener> movListeners;
 	private List<NetworkInterface> net;
 	private ModuleCommunicationBus comBus;
+	private int selfishDegree;
+	private boolean selfishBehaviourStatus;
 
 	static {
 		DTNSim.registerForReset(DTNHost.class.getCanonicalName());
@@ -537,6 +540,23 @@ public class DTNHost implements Comparable<DTNHost> {
 	 */
 	public int compareTo(DTNHost h) {
 		return this.getAddress() - h.getAddress();
+	}
+
+	/**
+	 * returns if the node wants to cooperate or not
+	 * @return
+	 */
+	public boolean wantToCooperate(){
+		Random n =  new Random();
+		if ((n.nextInt(100) + 1) > this.selfishDegree)
+			return true;
+		else
+			return false;
+	}
+
+	/** get status of selfish behavour */
+	public boolean getSelfishBehaviourStatus(){
+		return this.selfishBehaviourStatus;
 	}
 
 }
