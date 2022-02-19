@@ -559,4 +559,8 @@ public class DTNHost implements Comparable<DTNHost> {
 		return this.selfishBehaviourStatus;
 	}
 
+	public void setSelfishDegree(int i) {
+		selfishDegree = i;
+	}
+
 }

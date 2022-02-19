@@ -503,7 +503,7 @@ public class SimScenario implements Serializable {
 
 		if(this.selfishBehaviour){
 			for(int i = 0 ; i <hosts.size(); i++){
-				hosts.get(i).
+				hosts.get(i).setSelfishDegree(80);
 			}
 		}
 	}
