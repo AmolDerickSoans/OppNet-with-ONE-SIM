@@ -84,6 +84,9 @@ public abstract class MessageRouter {
 	/** Maximum Ttl value */
 	public static final int MAX_TTL_VALUE = 35791394;
 
+	// for selfish
+	public static final int DENIED_SELFISH = -6;
+
 	private List<MessageListener> mListeners;
 	/** The messages being transferred with msgID_hostName keys */
 	private HashMap<String, Message> incomingMessages;
@@ -338,6 +341,14 @@ public abstract class MessageRouter {
 	 */
 	public int receiveMessage(Message m, DTNHost from) {
 		Message newMessage = m.replicate();
+
+		if(getHost().getSelfishBehaviorStatus()){
+			if(m.getTo()!=getHost()){
+				if(!getHost().wantToCooperate()){
+					return DENIED_SELFISH;
+				}
+			}
+		}
 
 		this.putToIncomingBuffer(newMessage, from);
 		newMessage.addNodeOnPath(this.host);

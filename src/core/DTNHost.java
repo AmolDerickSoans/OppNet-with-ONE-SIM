@@ -15,6 +15,9 @@ import routing.util.RoutingInfo;
 
 import static core.Constants.DEBUG;
 
+// our extra libs
+import java.util.Random;
+
 /**
  * A DTN capable host.
  */
@@ -35,6 +38,10 @@ public class DTNHost implements Comparable<DTNHost> {
 	private List<MovementListener> movListeners;
 	private List<NetworkInterface> net;
 	private ModuleCommunicationBus comBus;
+
+	// new params
+	private int selfishdegree;
+	private boolean selfishBehaviorStatus;
 
 	static {
 		DTNSim.registerForReset(DTNHost.class.getCanonicalName());
@@ -537,6 +544,21 @@ public class DTNHost implements Comparable<DTNHost> {
 	 */
 	public int compareTo(DTNHost h) {
 		return this.getAddress() - h.getAddress();
+	}
+
+	// Random selfish
+	public boolean wantToCooperate (){
+		Random n = new Random();
+		if(( n . nextInt (100)+1)>this.selfishdegree )return true;
+		else return false;
+	}
+
+	public boolean getSelfishBehaviorStatus() {
+		return this.selfishBehaviorStatus;
+	}
+
+	public void setSelfishDegree(int x){
+		this.selfishdegree = x;
 	}
 
 }

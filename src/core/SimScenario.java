@@ -40,6 +40,9 @@ public class SimScenario implements Serializable {
 	/** simulate connections -setting id ({@value})*/
 	public static final String SIM_CON_S = "simulateConnections";
 
+	// selfish
+	public static final String SELF_BEHAVIOR = "selfishBehavior";
+
 	/** namespace for interface type settings ({@value}) */
 	public static final String INTTYPE_NS = "Interface";
 	/** interface type -setting id ({@value}) */
@@ -104,6 +107,10 @@ public class SimScenario implements Serializable {
 	private EventQueueHandler eqHandler;
 	/** Should connections between hosts be simulated */
 	private boolean simulateConnections;
+
+	// selfish
+	private boolean selfishBehavior;
+
 	/** Map used for host movement (if any) */
 	private SimMap simMap;
 
@@ -139,6 +146,9 @@ public class SimScenario implements Serializable {
 		this.updateInterval = s.getDouble(UP_INT_S);
 		this.simulateConnections = s.getBoolean(SIM_CON_S);
 
+		// selfish
+		this.selfishBehavior = s.getBoolean(SELF_BEHAVIOR);
+
 		s.ensurePositiveValue(nrofGroups, NROF_GROUPS_S);
 		s.ensurePositiveValue(endTime, END_TIME_S);
 		s.ensurePositiveValue(updateInterval, UP_INT_S);
@@ -159,7 +169,17 @@ public class SimScenario implements Serializable {
 		this.worldSizeX = worldSize[0];
 		this.worldSizeY = worldSize[1];
 
-		createHosts();
+
+
+		// Selfish
+		if(!this.selfishBehavior){
+			createHosts();
+		}
+		else{
+			createSelfishHosts();
+		}
+
+		
 
 		this.world = new World(hosts, worldSizeX, worldSizeY, updateInterval,
 				updateListeners, simulateConnections,
@@ -402,6 +422,98 @@ public class SimScenario implements Serializable {
 			}
 		}
 	}
+
+	// selfish
+	protected void createSelfishHosts() {
+		this.hosts = new ArrayList<DTNHost>();
+
+		for (int i=1; i<=nrofGroups; i++) {
+			List<NetworkInterface> interfaces =
+				new ArrayList<NetworkInterface>();
+			Settings s = new Settings(GROUP_NS+i);
+			s.setSecondaryNamespace(GROUP_NS);
+			String gid = s.getSetting(GROUP_ID_S);
+			int nrofHosts = s.getInt(NROF_HOSTS_S);
+			int nrofInterfaces = s.getInt(NROF_INTERF_S);
+			int appCount;
+
+			// creates prototypes of MessageRouter and MovementModel
+			MovementModel mmProto =
+				(MovementModel)s.createIntializedObject(MM_PACKAGE +
+						s.getSetting(MOVEMENT_MODEL_S));
+			MessageRouter mRouterProto =
+				(MessageRouter)s.createIntializedObject(ROUTING_PACKAGE +
+						s.getSetting(ROUTER_S));
+
+			/* checks that these values are positive (throws Error if not) */
+			s.ensurePositiveValue(nrofHosts, NROF_HOSTS_S);
+			s.ensurePositiveValue(nrofInterfaces, NROF_INTERF_S);
+
+			// setup interfaces
+			for (int j=1;j<=nrofInterfaces;j++) {
+				String intName = s.getSetting(INTERFACENAME_S + j);
+				Settings intSettings = new Settings(intName);
+				NetworkInterface iface =
+					(NetworkInterface)intSettings.createIntializedObject(
+							INTTYPE_PACKAGE +intSettings.getSetting(INTTYPE_S));
+				iface.setClisteners(connectionListeners);
+				iface.setGroupSettings(s);
+				interfaces.add(iface);
+			}
+
+			// setup applications
+			if (s.contains(APPCOUNT_S)) {
+				appCount = s.getInt(APPCOUNT_S);
+			} else {
+				appCount = 0;
+			}
+			for (int j=1; j<=appCount; j++) {
+				String appname = null;
+				Application protoApp = null;
+				try {
+					// Get name of the application for this group
+					appname = s.getSetting(GAPPNAME_S+j);
+					// Get settings for the given application
+					Settings t = new Settings(appname);
+					// Load an instance of the application
+					protoApp = (Application)t.createIntializedObject(
+							APP_PACKAGE + t.getSetting(APPTYPE_S));
+					// Set application listeners
+					protoApp.setAppListeners(this.appListeners);
+					// Set the proto application in proto router
+					//mRouterProto.setApplication(protoApp);
+					mRouterProto.addApplication(protoApp);
+				} catch (SettingsError se) {
+					// Failed to create an application for this group
+					System.err.println("Failed to setup an application: " + se);
+					System.err.println("Caught at " + se.getStackTrace()[0]);
+					System.exit(-1);
+				}
+			}
+
+			if (mmProto instanceof MapBasedMovement) {
+				this.simMap = ((MapBasedMovement)mmProto).getMap();
+			}
+
+			// creates hosts of ith group
+			for (int j=0; j<nrofHosts; j++) {
+				ModuleCommunicationBus comBus = new ModuleCommunicationBus();
+
+				// prototypes are given to new DTNHost which replicates
+				// new instances of movement model and message router
+				DTNHost host = new DTNHost(this.messageListeners,
+						this.movementListeners,	gid, interfaces, comBus,
+						mmProto, mRouterProto);
+				hosts.add(host);
+			}
+		}
+		if(this.selfishBehavior){
+			for(int i=0; i<hosts.size();++i){
+				hosts.get(i).setSelfishDegree(80);
+			}
+		}
+	}
+
 
 	/**
 	 * Returns the list of nodes for this scenario.
