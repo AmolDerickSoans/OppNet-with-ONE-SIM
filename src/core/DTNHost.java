@@ -7,7 +7,6 @@ package core;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Random;
 
 import movement.MovementModel;
 import movement.Path;
@@ -15,6 +14,9 @@ import routing.MessageRouter;
 import routing.util.RoutingInfo;
 
 import static core.Constants.DEBUG;
+
+// our extra libs
+import java.util.Random;
 
 /**
  * A DTN capable host.
@@ -36,8 +38,10 @@ public class DTNHost implements Comparable<DTNHost> {
 	private List<MovementListener> movListeners;
 	private List<NetworkInterface> net;
 	private ModuleCommunicationBus comBus;
-	private int selfishDegree;
-	private boolean selfishBehaviourStatus;
+
+	// new params
+	private int selfishdegree;
+	private boolean selfishBehaviorStatus;
 
 	static {
 		DTNSim.registerForReset(DTNHost.class.getCanonicalName());
@@ -542,25 +546,30 @@ public class DTNHost implements Comparable<DTNHost> {
 		return this.getAddress() - h.getAddress();
 	}
 
-	/**
-	 * returns if the node wants to cooperate or not
-	 * @return
-	 */
-	public boolean wantToCooperate(){
-		Random n =  new Random();
-		if ((n.nextInt(100) + 1) > this.selfishDegree)
-			return true;
-		else
+	// Random selfish
+	public boolean wantToCooperate (){
+		Random n = new Random();
+		if(( n . nextInt (100)+1)>this.selfishdegree )return true;
+		else { /** TODO: implement a list that can be accessed to show only selfish nodes */
+			
 			return false;
+		}
 	}
 
-	/** get status of selfish behavour */
-	public boolean getSelfishBehaviourStatus(){
-		return this.selfishBehaviourStatus;
+	public boolean getSelfishBehaviorStatus() {
+		return this.selfishBehaviorStatus;
+	}
+	//change value for selfish degree in  SimScenario
+	public void setSelfishDegree(int i){
+		this.selfishdegree = i;
 	}
 
-	public void setSelfishDegree(int i) {
-		selfishDegree = i;
+	//check if node is selfish
+	public boolean isSelfish(){
+		if(wantToCooperate() == false)
+		return true;
+		else return false;
 	}
+
 
 }

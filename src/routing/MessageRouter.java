@@ -1,3 +1,4 @@
+
 /*
  * Copyright 2010 Aalto University, ComNet
  * Released under GPLv3. See LICENSE.txt for details.
@@ -84,8 +85,8 @@ public abstract class MessageRouter {
 	/** Maximum Ttl value */
 	public static final int MAX_TTL_VALUE = 35791394;
 
-	/** selfish value to refuse */
-	public static final int DENIED_SELFISH = -4;
+	// for selfish
+	public static final int DENIED_SELFISH = -6;
 
 	private List<MessageListener> mListeners;
 	/** The messages being transferred with msgID_hostName keys */
@@ -339,8 +340,16 @@ public abstract class MessageRouter {
 	 * than zero if node rejected the message (e.g. DENIED_OLD), value bigger
 	 * than zero if the other node should try later (e.g. TRY_LATER_BUSY).
 	 */
-	/** public int receiveMessage(Message m, DTNHost from) {
+	public int receiveMessage(Message m, DTNHost from) {
 		Message newMessage = m.replicate();
+
+		if(getHost().getSelfishBehaviorStatus()){
+			if(m.getTo()!=getHost()){
+				if(!getHost().wantToCooperate()){
+					return DENIED_SELFISH;
+				}
+			}
+		}
 
 		this.putToIncomingBuffer(newMessage, from);
 		newMessage.addNodeOnPath(this.host);
@@ -351,29 +360,7 @@ public abstract class MessageRouter {
 
 		return RCV_OK; // superclass always accepts messages
 	}
-	*/
 
-	public int receiveMessage(Message m, DTNHost from) {
-		Message newMessage = m.replicate();
-
-		/* verifies if the selfish behaviour should be taken in consideration*/
-		if(getHost().getSelfishBehaviourStatus()){
-			if(m.getTo() != getHost()){
-				if(!getHost().wantToCooperate()){
-					return DENIED_SELFISH;
-				}
-			}
-		}
-		this.putToIncomingBuffer(newMessage, from);
-		newMessage.addNodeOnPath(this.host);
-
-		for (MessageListener ml : this.mListeners) {
-			ml.messageTransferStarted(newMessage, from, getHost());
-		}
-
-		return RCV_OK; // superclass always accepts messages
-		
-	 } 
 	/**
 	 * This method should be called (on the receiving host) after a message
 	 * was successfully transferred. The transferred message is put to the

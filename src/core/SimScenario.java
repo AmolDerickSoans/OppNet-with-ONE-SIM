@@ -39,8 +39,9 @@ public class SimScenario implements Serializable {
 	public static final String UP_INT_S = "updateInterval";
 	/** simulate connections -setting id ({@value})*/
 	public static final String SIM_CON_S = "simulateConnections";
-	/** simulate selfish behaviour -setting id ({@value}) */
-	public static final String SELF_BEHAVIOUR = "selfishBehaviour";
+
+	// selfish
+	public static final String SELF_BEHAVIOR = "selfishBehavior";
 
 	/** namespace for interface type settings ({@value}) */
 	public static final String INTTYPE_NS = "Interface";
@@ -106,8 +107,10 @@ public class SimScenario implements Serializable {
 	private EventQueueHandler eqHandler;
 	/** Should connections between hosts be simulated */
 	private boolean simulateConnections;
-	/** Should hosts present selfish behaviour */
-	private boolean selfishBehaviour;
+
+	// selfish
+	private boolean selfishBehavior;
+
 	/** Map used for host movement (if any) */
 	private SimMap simMap;
 
@@ -142,7 +145,10 @@ public class SimScenario implements Serializable {
 		this.endTime = s.getDouble(END_TIME_S);
 		this.updateInterval = s.getDouble(UP_INT_S);
 		this.simulateConnections = s.getBoolean(SIM_CON_S);
-		this.selfishBehaviour = s.getBoolean(SELF_BEHAVIOUR);
+
+		// selfish
+		this.selfishBehavior = s.getBoolean(SELF_BEHAVIOR);
+
 		s.ensurePositiveValue(nrofGroups, NROF_GROUPS_S);
 		s.ensurePositiveValue(endTime, END_TIME_S);
 		s.ensurePositiveValue(updateInterval, UP_INT_S);
@@ -163,15 +169,17 @@ public class SimScenario implements Serializable {
 		this.worldSizeX = worldSize[0];
 		this.worldSizeY = worldSize[1];
 
-		/** TODO: check if selfish behaviour is considered */
-		if(!this.selfishBehaviour){
+
+
+		// Selfish
+		if(!this.selfishBehavior){
 			createHosts();
 		}
 		else{
 			createSelfishHosts();
 		}
 
-		createHosts();
+		
 
 		this.world = new World(hosts, worldSizeX, worldSizeY, updateInterval,
 				updateListeners, simulateConnections,
@@ -415,6 +423,7 @@ public class SimScenario implements Serializable {
 		}
 	}
 
+	// selfish
 	protected void createSelfishHosts() {
 		this.hosts = new ArrayList<DTNHost>();
 
@@ -498,15 +507,13 @@ public class SimScenario implements Serializable {
 				hosts.add(host);
 			}
 		}
-
-		/*sets selfish degree to the nodes if selfishBehaviour is true */
-
-		if(this.selfishBehaviour){
-			for(int i = 0 ; i <hosts.size(); i++){
+		if(this.selfishBehavior){
+			for(int i=0; i<hosts.size();++i){
 				hosts.get(i).setSelfishDegree(80);
 			}
 		}
 	}
+
 
 	/**
 	 * Returns the list of nodes for this scenario.
