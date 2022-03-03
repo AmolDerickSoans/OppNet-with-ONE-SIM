@@ -345,7 +345,8 @@ public abstract class MessageRouter {
 
 		if(getHost().getSelfishBehaviorStatus()){
 			if(m.getTo()!=getHost()){
-				if(!getHost().wantToCooperate()){
+				if(getHost().wantToCooperate()){
+					System.out.println("DeniedSelfish");
 					return DENIED_SELFISH;
 				}
 			}

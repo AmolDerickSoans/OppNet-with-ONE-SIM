@@ -41,7 +41,7 @@ public class DTNHost implements Comparable<DTNHost> {
 
 	// new params
 	private int selfishdegree;
-	private boolean selfishBehaviorStatus;
+	private boolean selfishBehaviorStatus = true ;
 
 	static {
 		DTNSim.registerForReset(DTNHost.class.getCanonicalName());
@@ -549,27 +549,29 @@ public class DTNHost implements Comparable<DTNHost> {
 	// Random selfish
 	public boolean wantToCooperate (){
 		Random n = new Random();
-		if(( n . nextInt (100)+1)>this.selfishdegree )return true;
-		else { /** TODO: implement a list that can be accessed to show only selfish nodes */
-			
+		if(( n.nextInt(100)+1)>this.selfishdegree)return true;
+		else {
 			return false;
 		}
 	}
 
+	
 	public boolean getSelfishBehaviorStatus() {
-		return this.selfishBehaviorStatus;
+		return this.selfishBehaviorStatus;		
 	}
+
 	//change value for selfish degree in  SimScenario
 	public void setSelfishDegree(int i){
 		this.selfishdegree = i;
 	}
 
-	//check if node is selfish
+	//check if node is selfish for visuals
 	public boolean isSelfish(){
 		if(wantToCooperate() == false)
 		return true;
 		else return false;
 	}
+
 
 
 }

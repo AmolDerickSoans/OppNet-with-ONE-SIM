@@ -42,6 +42,7 @@ public class SimScenario implements Serializable {
 
 	// selfish
 	public static final String SELF_BEHAVIOR = "selfishBehavior";
+	public static final String SELF_DEGREE = "selfishDegree";
 
 	/** namespace for interface type settings ({@value}) */
 	public static final String INTTYPE_NS = "Interface";
@@ -110,6 +111,7 @@ public class SimScenario implements Serializable {
 
 	// selfish
 	private boolean selfishBehavior;
+	private int selfishDegree;
 
 	/** Map used for host movement (if any) */
 	private SimMap simMap;
@@ -148,6 +150,8 @@ public class SimScenario implements Serializable {
 
 		// selfish
 		this.selfishBehavior = s.getBoolean(SELF_BEHAVIOR);
+		this.selfishDegree = s.getInt(SELF_DEGREE);
+		
 
 		s.ensurePositiveValue(nrofGroups, NROF_GROUPS_S);
 		s.ensurePositiveValue(endTime, END_TIME_S);
@@ -503,15 +507,14 @@ public class SimScenario implements Serializable {
 				// new instances of movement model and message router
 				DTNHost host = new DTNHost(this.messageListeners,
 						this.movementListeners,	gid, interfaces, comBus,
-						mmProto, mRouterProto);
+						mmProto, mRouterProto);		
 				hosts.add(host);
 			}
 		}
-		if(this.selfishBehavior){
 			for(int i=0; i<hosts.size();++i){
-				hosts.get(i).setSelfishDegree(80);
+				hosts.get(i).setSelfishDegree(selfishDegree);
 			}
-		}
+		
 	}
 
 
