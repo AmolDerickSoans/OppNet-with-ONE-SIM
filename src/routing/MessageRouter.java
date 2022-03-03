@@ -343,14 +343,15 @@ public abstract class MessageRouter {
 	public int receiveMessage(Message m, DTNHost from) {
 		Message newMessage = m.replicate();
 
-		if(getHost().getSelfishBehaviorStatus()){
+	
 			if(m.getTo()!=getHost()){
-				if(getHost().wantToCooperate()){
-					System.out.println("DeniedSelfish");
+				if(!getHost().wantToCooperate()){
+					
+					System.out.println("DENIED_SELFISH");
 					return DENIED_SELFISH;
 				}
 			}
-		}
+	
 
 		this.putToIncomingBuffer(newMessage, from);
 		newMessage.addNodeOnPath(this.host);
@@ -358,7 +359,8 @@ public abstract class MessageRouter {
 		for (MessageListener ml : this.mListeners) {
 			ml.messageTransferStarted(newMessage, from, getHost());
 		}
-
+		
+		System.out.println("RCV_OK");
 		return RCV_OK; // superclass always accepts messages
 	}
 

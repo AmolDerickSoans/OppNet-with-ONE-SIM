@@ -41,7 +41,7 @@ public class DTNHost implements Comparable<DTNHost> {
 
 	// new params
 	private int selfishdegree;
-	private boolean selfishBehaviorStatus = true ;
+
 
 	static {
 		DTNSim.registerForReset(DTNHost.class.getCanonicalName());
@@ -553,11 +553,6 @@ public class DTNHost implements Comparable<DTNHost> {
 		else {
 			return false;
 		}
-	}
-
-	
-	public boolean getSelfishBehaviorStatus() {
-		return this.selfishBehaviorStatus;		
 	}
 
 	//change value for selfish degree in  SimScenario

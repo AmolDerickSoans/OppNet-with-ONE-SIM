@@ -283,6 +283,7 @@ public class SimScenario implements Serializable {
 	public void addConnectionListener(ConnectionListener cl){
 		this.connectionListeners.add(cl);
 	}
+	
 
 	/**
 	 * Adds a new message listener for all nodes
