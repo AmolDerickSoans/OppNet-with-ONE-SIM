@@ -7,11 +7,11 @@ Scenario.name = default_scenario
 Scenario.simulateConnections = true
 Scenario.updateInterval = 0.1
 # 43200s == 12h
-Scenario.endTime = 12000
+Scenario.endTime = 43200
 
 ##selfish
 Scenario.selfishBehavior= false
-Scenario.selfishDegree = 100
+# Scenario.selfishDegree = 100
 
 
 ## Interface-specific settings:
@@ -58,7 +58,7 @@ Scenario.nrofHostGroups = 6
 
 # Common settings for all groups
 Group.movementModel = ShortestPathMapBasedMovement
-Group.router = ProphetRouter
+Group.router = EpidemicOracleRouter
 Group.bufferSize = 5M
 Group.waitTime = 0, 120
 # All nodes have the bluetooth interface

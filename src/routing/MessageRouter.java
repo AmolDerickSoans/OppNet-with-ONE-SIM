@@ -345,9 +345,9 @@ public abstract class MessageRouter {
 
 	
 			if(m.getTo()!=getHost()){
-				if(!getHost().wantToCooperate()){
+				if(getHost().isSelfish()==true){
 					
-					System.out.println("DENIED_SELFISH");
+					// System.out.println("DENIED_SELFISH");
 					return DENIED_SELFISH;
 				}
 			}
@@ -360,7 +360,7 @@ public abstract class MessageRouter {
 			ml.messageTransferStarted(newMessage, from, getHost());
 		}
 		
-		System.out.println("RCV_OK");
+		// System.out.println("RCV_OK");
 		return RCV_OK; // superclass always accepts messages
 	}
 

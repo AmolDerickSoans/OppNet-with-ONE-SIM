@@ -10,6 +10,7 @@ import input.EventQueueHandler;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import movement.MapBasedMovement;
 import movement.MovementModel;
@@ -42,7 +43,7 @@ public class SimScenario implements Serializable {
 
 	// selfish
 	public static final String SELF_BEHAVIOR = "selfishBehavior";
-	public static final String SELF_DEGREE = "selfishDegree";
+	// public static final String SELF_DEGREE = "selfishDegree";
 
 	/** namespace for interface type settings ({@value}) */
 	public static final String INTTYPE_NS = "Interface";
@@ -111,7 +112,9 @@ public class SimScenario implements Serializable {
 
 	// selfish
 	private boolean selfishBehavior;
-	private int selfishDegree;
+	// private int selfishDegree;
+	private double selfishvalue=0;
+	private double totvalue=0;
 
 	/** Map used for host movement (if any) */
 	private SimMap simMap;
@@ -150,7 +153,8 @@ public class SimScenario implements Serializable {
 
 		// selfish
 		this.selfishBehavior = s.getBoolean(SELF_BEHAVIOR);
-		this.selfishDegree = s.getInt(SELF_DEGREE);
+		// this.selfishDegree = s.getInt(SELF_DEGREE);
+		
 		
 
 		s.ensurePositiveValue(nrofGroups, NROF_GROUPS_S);
@@ -513,9 +517,21 @@ public class SimScenario implements Serializable {
 			}
 		}
 			for(int i=0; i<hosts.size();++i){
-				hosts.get(i).setSelfishDegree(selfishDegree);
+				Random  r = new Random();
+				int nodeSelfishDegree=r.nextInt(99)+1;//(1,100)
+				++totvalue;
+				if(nodeSelfishDegree>=100)//(95 and above selfish)
+				{
+					hosts.get(i).setSelfishDegree(1);
+					++selfishvalue;
+				}
+				else
+				{
+					hosts.get(i).setSelfishDegree(0);
+				}
+				// System.out.println( "Selfish Degree is: "+(selfishvalue) *100);
 			}
-		
+			System.out.println( "Selfish Degree is: "+(selfishvalue/totvalue) *100);
 	}
 
 

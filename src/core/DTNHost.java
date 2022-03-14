@@ -547,12 +547,12 @@ public class DTNHost implements Comparable<DTNHost> {
 	}
 
 	// Random selfish
-	public boolean wantToCooperate (){
-		Random n = new Random();
-		if(( n.nextInt(100)+1)>this.selfishdegree)return true;
-		else {
-			return false;
+	public boolean isSelfish (){
+		if(this.selfishdegree==1)
+		{
+			return true;//1 is selfish 
 		}
+		return false;
 	}
 
 	//change value for selfish degree in  SimScenario
@@ -561,12 +561,4 @@ public class DTNHost implements Comparable<DTNHost> {
 	}
 
 	//check if node is selfish for visuals
-	public boolean isSelfish(){
-		if(wantToCooperate() == false)
-		return true;
-		else return false;
-	}
-
-
-
 }
