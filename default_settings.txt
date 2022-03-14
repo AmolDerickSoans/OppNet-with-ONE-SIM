@@ -7,11 +7,11 @@ Scenario.name = default_scenario
 Scenario.simulateConnections = true
 Scenario.updateInterval = 0.1
 # 43200s == 12h
-Scenario.endTime = 43200
+Scenario.endTime = 4320
 
 ##selfish
-Scenario.selfishBehavior= false
-# Scenario.selfishDegree = 100
+Scenario.selfishBehavior= true
+Scenario.selfishThreshold = 100
 
 
 ## Interface-specific settings:

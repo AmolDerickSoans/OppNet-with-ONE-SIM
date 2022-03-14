@@ -43,7 +43,7 @@ public class SimScenario implements Serializable {
 
 	// selfish
 	public static final String SELF_BEHAVIOR = "selfishBehavior";
-	// public static final String SELF_DEGREE = "selfishDegree";
+	public static final String SELF_THRESH = "selfishThreshold";
 
 	/** namespace for interface type settings ({@value}) */
 	public static final String INTTYPE_NS = "Interface";
@@ -112,7 +112,7 @@ public class SimScenario implements Serializable {
 
 	// selfish
 	private boolean selfishBehavior;
-	// private int selfishDegree;
+	private int selfishThreshold;
 	private double selfishvalue=0;
 	private double totvalue=0;
 
@@ -153,7 +153,7 @@ public class SimScenario implements Serializable {
 
 		// selfish
 		this.selfishBehavior = s.getBoolean(SELF_BEHAVIOR);
-		// this.selfishDegree = s.getInt(SELF_DEGREE);
+		this.selfishThreshold = s.getInt(SELF_THRESH);
 		
 		
 
@@ -520,7 +520,7 @@ public class SimScenario implements Serializable {
 				Random  r = new Random();
 				int nodeSelfishDegree=r.nextInt(99)+1;//(1,100)
 				++totvalue;
-				if(nodeSelfishDegree>=100)//(95 and above selfish)
+				if(nodeSelfishDegree>=selfishThreshold)//(95 and above selfish)
 				{
 					hosts.get(i).setSelfishDegree(1);
 					++selfishvalue;
