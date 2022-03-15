@@ -40,7 +40,7 @@ public class DTNHost implements Comparable<DTNHost> {
 	private ModuleCommunicationBus comBus;
 
 	// new params
-	private int selfishdegree;
+	// private int selfishdegree;
 	private boolean selfishBehaviorStatus;
 
 	static {
@@ -547,18 +547,23 @@ public class DTNHost implements Comparable<DTNHost> {
 	}
 
 	// Random selfish
-	public boolean wantToCooperate (){
-		Random n = new Random();
-		if(( n . nextInt (100)+1)>this.selfishdegree )return true;
-		else return false;
-	}
+	// public boolean wantToCooperate (){
+	// 	// Random n = new Random();
+	// 	// if(( n . nextInt (100)+1)> this.selfishdegree )return true;
+	// 	if((  this.selfishBehaviorStatus) )return true;
+	// 	else return false;
+	// }
 
 	public boolean getSelfishBehaviorStatus() {
 		return this.selfishBehaviorStatus;
 	}
 
-	public void setSelfishDegree(int x){
-		this.selfishdegree = x;
+	public void setSelfishBehaviorStatus(boolean x) {
+		this.selfishBehaviorStatus = x;
 	}
+
+	// public void setSelfishDegree(int x){
+	// 	this.selfishdegree = x;
+	// }
 
 }
