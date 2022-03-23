@@ -57,21 +57,21 @@ public class TrustReport extends Report implements UpdateListener{
 		// System.out.println(scen.selfishThreshold);
 		if(scen.selfishBehavior){
 			scen.setAllSelfishDegree();
-		}
-		int j=0;
-		for(DTNHost h: hosts)
-		{
-			if(h.selfishdegree==0)
+			int j=0;
+			for(DTNHost h: hosts)
 			{
-				int preval=trustcount.get(j);
-				trustcount.set(j, --preval);
+				if(h.selfishdegree==0)
+				{
+					int preval=trustcount.get(j);
+					trustcount.set(j, ++preval);//0 means non selfish and trust increases
+				}
+				else if(h.selfishdegree==1)
+				{
+					int preval=trustcount.get(j);
+					trustcount.set(j, --preval);
+				}
+				j++;
 			}
-			else
-			{
-				int preval=trustcount.get(j);
-				trustcount.set(j, ++preval);
-			}
-			j++;
 		}
 	}
 
@@ -80,7 +80,7 @@ public class TrustReport extends Report implements UpdateListener{
 		String output;
 		for(int i=1;i<=size;i++)
 		{
-			output= String.valueOf(i) + " -----> " + String.valueOf(trustcount.get(i-1));
+			output=String.valueOf(trustcount.get(i-1));
 			write(output);
 		}
 	}

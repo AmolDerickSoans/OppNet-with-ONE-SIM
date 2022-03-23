@@ -446,14 +446,14 @@ public class SimScenario implements Serializable {
 			Random  r = new Random();
 			int nodeSelfishDegree=r.nextInt(99)+1;//(1,100)
 			++totvalue;
-			if(nodeSelfishDegree<=selfishThreshold)//(95 and above selfish)
+			if(nodeSelfishDegree<=selfishThreshold)
 			{
-				hosts.get(i).setSelfishDegree(1);
+				hosts.get(i).setSelfishDegree(1);//(1 is selfish)
 				++selfishvalue;
 			}
 			else
 			{
-				hosts.get(i).setSelfishDegree(0);
+				hosts.get(i).setSelfishDegree(0);//(0 is non selfish)
 			}
 			// System.out.println( "Selfish Degree is: "+(selfishvalue) *100);
 		}

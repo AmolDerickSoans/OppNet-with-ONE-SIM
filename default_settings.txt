@@ -11,7 +11,7 @@ Scenario.endTime = 4320
 
 ##selfish
 Scenario.selfishBehavior= true
-Scenario.selfishThreshold = 80
+Scenario.selfishThreshold = 40
 
 ## Interface-specific settings:
 # type : which interface class the interface belongs to
