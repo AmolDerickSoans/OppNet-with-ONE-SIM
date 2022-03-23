@@ -11,8 +11,7 @@ Scenario.endTime = 4320
 
 ##selfish
 Scenario.selfishBehavior= true
-Scenario.selfishThreshold = 100
-
+Scenario.selfishThreshold = 80
 
 ## Interface-specific settings:
 # type : which interface class the interface belongs to
@@ -58,7 +57,7 @@ Scenario.nrofHostGroups = 6
 
 # Common settings for all groups
 Group.movementModel = ShortestPathMapBasedMovement
-Group.router = EpidemicOracleRouter
+Group.router = EpidemicRouter
 Group.bufferSize = 5M
 Group.waitTime = 0, 120
 # All nodes have the bluetooth interface
@@ -159,17 +158,17 @@ MapBasedMovement.mapFile4 = data/shops.wkt
 ## Reports - all report names have to be valid report classes
 
 # how many reports to load
-Report.nrofReports = 2
+Report.nrofReports = 1
 # length of the warm up period (simulated seconds)
 Report.warmup = 0
 # default directory of reports (can be overridden per Report with output setting)
 Report.reportDir = reports/
 # Report classes to load
-Report.granularity = 43000
+Report.granularity = 432
 
-Report.report1 = MessageStatsReport
-Report.report2 = DeliveredMessagesReport
-# Report.report2 = EnergyLevelReport
+# Report.report1 = MessageStatsReport
+# Report.report1 = SnapshotReport
+Report.report1 = TrustReport
 
 
 ## Default settings for some routers settings

@@ -40,7 +40,7 @@ public class DTNHost implements Comparable<DTNHost> {
 	private ModuleCommunicationBus comBus;
 
 	// new params
-	private int selfishdegree;
+	public int selfishdegree;
 
 
 	static {
@@ -559,6 +559,5 @@ public class DTNHost implements Comparable<DTNHost> {
 	public void setSelfishDegree(int i){
 		this.selfishdegree = i;
 	}
-
 	//check if node is selfish for visuals
 }

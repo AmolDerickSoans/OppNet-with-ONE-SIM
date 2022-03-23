@@ -111,10 +111,11 @@ public class SimScenario implements Serializable {
 	private boolean simulateConnections;
 
 	// selfish
-	private boolean selfishBehavior;
-	private int selfishThreshold;
-	private double selfishvalue=0;
-	private double totvalue=0;
+	public boolean selfishBehavior;
+	public int selfishThreshold;
+	// public double selfishvalue=0;
+	// public double totvalue=0;
+	public double totselfishvalue=0;
 
 	/** Map used for host movement (if any) */
 	private SimMap simMap;
@@ -142,7 +143,15 @@ public class SimScenario implements Serializable {
 	/**
 	 * Creates a scenario based on Settings object.
 	 */
-	protected SimScenario() {
+	// public SimScenario(int selfthres)
+	// {
+	// 	// Settings s = new Settings(SCENARIO_NS);
+	// 	// this.selfishBehavior = s.getBoolean(SELF_BEHAVIOR);
+	// 	this.selfishThreshold = 70;
+	// 	createHosts();
+	// }
+	public SimScenario() {
+		
 		Settings s = new Settings(SCENARIO_NS);
 		nrofGroups = s.getInt(NROF_GROUPS_S);
 
@@ -178,16 +187,8 @@ public class SimScenario implements Serializable {
 		this.worldSizeY = worldSize[1];
 
 
-
+		createHosts();
 		// Selfish
-		if(!this.selfishBehavior){
-			createHosts();
-		}
-		else{
-			createSelfishHosts();
-		}
-
-		
 
 		this.world = new World(hosts, worldSizeX, worldSizeY, updateInterval,
 				updateListeners, simulateConnections,
@@ -347,7 +348,7 @@ public class SimScenario implements Serializable {
 	/**
 	 * Creates hosts for the scenario
 	 */
-	protected void createHosts() {
+	public void createHosts() {
 		this.hosts = new ArrayList<DTNHost>();
 
 		for (int i=1; i<=nrofGroups; i++) {
@@ -430,108 +431,34 @@ public class SimScenario implements Serializable {
 				hosts.add(host);
 			}
 		}
+		//selfish
+		if(this.selfishBehavior){
+			setAllSelfishDegree();
+		}
 	}
 
-	// selfish
-	protected void createSelfishHosts() {
-		this.hosts = new ArrayList<DTNHost>();
-
-		for (int i=1; i<=nrofGroups; i++) {
-			List<NetworkInterface> interfaces =
-				new ArrayList<NetworkInterface>();
-			Settings s = new Settings(GROUP_NS+i);
-			s.setSecondaryNamespace(GROUP_NS);
-			String gid = s.getSetting(GROUP_ID_S);
-			int nrofHosts = s.getInt(NROF_HOSTS_S);
-			int nrofInterfaces = s.getInt(NROF_INTERF_S);
-			int appCount;
-
-			// creates prototypes of MessageRouter and MovementModel
-			MovementModel mmProto =
-				(MovementModel)s.createIntializedObject(MM_PACKAGE +
-						s.getSetting(MOVEMENT_MODEL_S));
-			MessageRouter mRouterProto =
-				(MessageRouter)s.createIntializedObject(ROUTING_PACKAGE +
-						s.getSetting(ROUTER_S));
-
-			/* checks that these values are positive (throws Error if not) */
-			s.ensurePositiveValue(nrofHosts, NROF_HOSTS_S);
-			s.ensurePositiveValue(nrofInterfaces, NROF_INTERF_S);
-
-			// setup interfaces
-			for (int j=1;j<=nrofInterfaces;j++) {
-				String intName = s.getSetting(INTERFACENAME_S + j);
-				Settings intSettings = new Settings(intName);
-				NetworkInterface iface =
-					(NetworkInterface)intSettings.createIntializedObject(
-							INTTYPE_PACKAGE +intSettings.getSetting(INTTYPE_S));
-				iface.setClisteners(connectionListeners);
-				iface.setGroupSettings(s);
-				interfaces.add(iface);
+	public void setAllSelfishDegree()
+	{
+		// System.out.println("LOL");
+		double selfishvalue=0;
+		double totvalue=0;
+		for(int i=0; i<hosts.size();++i){
+			Random  r = new Random();
+			int nodeSelfishDegree=r.nextInt(99)+1;//(1,100)
+			++totvalue;
+			if(nodeSelfishDegree<=selfishThreshold)//(95 and above selfish)
+			{
+				hosts.get(i).setSelfishDegree(1);
+				++selfishvalue;
 			}
-
-			// setup applications
-			if (s.contains(APPCOUNT_S)) {
-				appCount = s.getInt(APPCOUNT_S);
-			} else {
-				appCount = 0;
+			else
+			{
+				hosts.get(i).setSelfishDegree(0);
 			}
-			for (int j=1; j<=appCount; j++) {
-				String appname = null;
-				Application protoApp = null;
-				try {
-					// Get name of the application for this group
-					appname = s.getSetting(GAPPNAME_S+j);
-					// Get settings for the given application
-					Settings t = new Settings(appname);
-					// Load an instance of the application
-					protoApp = (Application)t.createIntializedObject(
-							APP_PACKAGE + t.getSetting(APPTYPE_S));
-					// Set application listeners
-					protoApp.setAppListeners(this.appListeners);
-					// Set the proto application in proto router
-					//mRouterProto.setApplication(protoApp);
-					mRouterProto.addApplication(protoApp);
-				} catch (SettingsError se) {
-					// Failed to create an application for this group
-					System.err.println("Failed to setup an application: " + se);
-					System.err.println("Caught at " + se.getStackTrace()[0]);
-					System.exit(-1);
-				}
-			}
-
-			if (mmProto instanceof MapBasedMovement) {
-				this.simMap = ((MapBasedMovement)mmProto).getMap();
-			}
-
-			// creates hosts of ith group
-			for (int j=0; j<nrofHosts; j++) {
-				ModuleCommunicationBus comBus = new ModuleCommunicationBus();
-
-				// prototypes are given to new DTNHost which replicates
-				// new instances of movement model and message router
-				DTNHost host = new DTNHost(this.messageListeners,
-						this.movementListeners,	gid, interfaces, comBus,
-						mmProto, mRouterProto);		
-				hosts.add(host);
-			}
+			// System.out.println( "Selfish Degree is: "+(selfishvalue) *100);
 		}
-			for(int i=0; i<hosts.size();++i){
-				Random  r = new Random();
-				int nodeSelfishDegree=r.nextInt(99)+1;//(1,100)
-				++totvalue;
-				if(nodeSelfishDegree>=selfishThreshold)//(95 and above selfish)
-				{
-					hosts.get(i).setSelfishDegree(1);
-					++selfishvalue;
-				}
-				else
-				{
-					hosts.get(i).setSelfishDegree(0);
-				}
-				// System.out.println( "Selfish Degree is: "+(selfishvalue) *100);
-			}
-			System.out.println( "Selfish Degree is: "+(selfishvalue/totvalue) *100);
+		totselfishvalue=(selfishvalue/totvalue) *100;
+		System.out.println( "Selfish Degree is: "+totselfishvalue);
 	}
 
 

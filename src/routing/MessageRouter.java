@@ -23,7 +23,9 @@ import core.SimClock;
 import core.SimError;
 import routing.util.RoutingInfo;
 import util.Tuple;
+import core.SimScenario;
 
+// public int val =0;
 /**
  * Superclass for message routers.
  */
@@ -342,7 +344,6 @@ public abstract class MessageRouter {
 	 */
 	public int receiveMessage(Message m, DTNHost from) {
 		Message newMessage = m.replicate();
-
 	
 			if(m.getTo()!=getHost()){
 				if(getHost().isSelfish()==true){
