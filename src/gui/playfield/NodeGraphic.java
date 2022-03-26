@@ -14,6 +14,7 @@ import core.Connection;
 import core.Coord;
 import core.DTNHost;
 import core.NetworkInterface;
+import core.SimScenario;
 
 /**
  * Visualization of a DTN Node
@@ -43,6 +44,7 @@ public class NodeGraphic extends PlayFieldGraphic {
 	private static Color highlightedNodeColor = Color.MAGENTA;
 
 	private DTNHost node;
+	//private SimScenario scenario;
 
 	public NodeGraphic(DTNHost node) {
 		this.node = node;
@@ -87,7 +89,7 @@ public class NodeGraphic extends PlayFieldGraphic {
 						scale(range * 2));
 
 				// draw the "range" circle
-				if(node.isSelfish()){
+				if(node.color == "Red"){
 					g2.setColor(SelfishrangeColor);
 					g2.draw(coverage);	
 				}
@@ -117,7 +119,7 @@ public class NodeGraphic extends PlayFieldGraphic {
 		}
 
 		/** segregate selfish and altruistic nodes */
-		if(node.isSelfish()){
+		if(node.color == "Red"){
 			g2.setColor(SelfishhostColor);
 		g2.drawRect(scale(loc.getX()-1),scale(loc.getY()-1),
 		scale(2),scale(2));

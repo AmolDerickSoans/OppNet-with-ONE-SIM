@@ -85,7 +85,7 @@ public abstract class MessageRouter {
 	/** Maximum Ttl value */
 	public static final int MAX_TTL_VALUE = 35791394;
 
-	// for selfish
+	// for 
 	public static final int DENIED_SELFISH = -6;
 
 	private List<MessageListener> mListeners;

@@ -3,15 +3,15 @@
 #
 
 ## Scenario settings
-Scenario.name = default_scenario
+Scenario.name = epidemicWScore_tresh100
 Scenario.simulateConnections = true
 Scenario.updateInterval = 0.1
 # 43200s == 12h
 Scenario.endTime = 12000
 
 ##selfish
-Scenario.selfishBehavior= false
-Scenario.selfishDegree = 100
+Scenario.selfishBehavior= true
+Scenario.selfishTreshold = 45
 
 
 ## Interface-specific settings:
@@ -58,7 +58,7 @@ Scenario.nrofHostGroups = 6
 
 # Common settings for all groups
 Group.movementModel = ShortestPathMapBasedMovement
-Group.router = ProphetRouter
+Group.router = EpidemicRouterWithScore
 Group.bufferSize = 5M
 Group.waitTime = 0, 120
 # All nodes have the bluetooth interface

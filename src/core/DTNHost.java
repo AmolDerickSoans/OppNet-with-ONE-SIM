@@ -566,6 +566,13 @@ public class DTNHost implements Comparable<DTNHost> {
 		return true;
 		else return false;
 	}
+	//set node colour based on selfishness
+
+	public String color = "";
+
+	public void setHostColor(String color){
+		this.color = color;
+	}
 
 
 

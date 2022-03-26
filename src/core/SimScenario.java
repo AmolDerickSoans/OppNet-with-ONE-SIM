@@ -10,6 +10,7 @@ import input.EventQueueHandler;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import movement.MapBasedMovement;
 import movement.MovementModel;
@@ -42,7 +43,8 @@ public class SimScenario implements Serializable {
 
 	// selfish
 	public static final String SELF_BEHAVIOR = "selfishBehavior";
-	public static final String SELF_DEGREE = "selfishDegree";
+
+	public static final String SELF_DEGREE = "selfishTreshold";
 
 	/** namespace for interface type settings ({@value}) */
 	public static final String INTTYPE_NS = "Interface";
@@ -136,6 +138,13 @@ public class SimScenario implements Serializable {
 		myinstance = null;
 	}
 
+	/**public static int getRandomNumberInRange(int min, int max) { 
+		if (min >= max) {
+			throw new IllegalArgumentException("max must be greater than min"); 
+		} Random r = new Random(); return r.nextInt((max - min) + 1) + min;
+	 }
+	 */
+	
 	/**
 	 * Creates a scenario based on Settings object.
 	 */
@@ -513,10 +522,24 @@ public class SimScenario implements Serializable {
 			}
 		}
 			for(int i=0; i<hosts.size();++i){
-				hosts.get(i).setSelfishDegree(selfishDegree);
+				Random n = new Random();
+				int randomSelfishDegree = n.nextInt((90)+10);
+				if(randomSelfishDegree > selfishDegree){
+					//red (selfish)
+					hosts.get(i).setHostColor("Red");
+					hosts.get(i).setSelfishDegree(randomSelfishDegree);
+				}
+				else{
+					//green
+					hosts.get(i).setHostColor("Green");
+					hosts.get(i).setSelfishDegree(randomSelfishDegree);
+				}
+				
+				//System.out.println("created Selfish Host");
 			}
 		
 	}
+
 
 
 	/**
