@@ -15,6 +15,7 @@ import routing.util.RoutingInfo;
 
 import static core.Constants.DEBUG;
 
+import java.util.Random;
 /**
  * A DTN capable host.
  */

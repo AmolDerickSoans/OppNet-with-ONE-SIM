@@ -336,6 +336,7 @@ public abstract class MessageRouter {
 	 * than zero if node rejected the message (e.g. DENIED_OLD), value bigger
 	 * than zero if the other node should try later (e.g. TRY_LATER_BUSY).
 	 */
+
 	public int receiveMessage(Message m, DTNHost from) {
 		Message newMessage = m.replicate();
 
@@ -348,7 +349,6 @@ public abstract class MessageRouter {
 
 		return RCV_OK; // superclass always accepts messages
 	}
-
 	/**
 	 * This method should be called (on the receiving host) after a message
 	 * was successfully transferred. The transferred message is put to the
