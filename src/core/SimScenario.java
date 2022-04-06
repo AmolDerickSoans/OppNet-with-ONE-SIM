@@ -10,6 +10,7 @@ import input.EventQueueHandler;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import movement.MapBasedMovement;
 import movement.MovementModel;
@@ -39,6 +40,10 @@ public class SimScenario implements Serializable {
 	public static final String UP_INT_S = "updateInterval";
 	/** simulate connections -setting id ({@value})*/
 	public static final String SIM_CON_S = "simulateConnections";
+
+	// selfish
+	public static final String SELF_BEHAVIOR = "selfishBehavior";
+	// public static final String SELF_THRESH = "selfishThreshold";
 
 	/** namespace for interface type settings ({@value}) */
 	public static final String INTTYPE_NS = "Interface";
@@ -104,6 +109,11 @@ public class SimScenario implements Serializable {
 	private EventQueueHandler eqHandler;
 	/** Should connections between hosts be simulated */
 	private boolean simulateConnections;
+
+	// selfish
+	public boolean selfishBehavior;
+	// public int selfishThreshold;
+
 	/** Map used for host movement (if any) */
 	private SimMap simMap;
 
@@ -130,7 +140,15 @@ public class SimScenario implements Serializable {
 	/**
 	 * Creates a scenario based on Settings object.
 	 */
-	protected SimScenario() {
+	// public SimScenario(int selfthres)
+	// {
+	// 	// Settings s = new Settings(SCENARIO_NS);
+	// 	// this.selfishBehavior = s.getBoolean(SELF_BEHAVIOR);
+	// 	this.selfishThreshold = 70;
+	// 	createHosts();
+	// }
+	public SimScenario() {
+		
 		Settings s = new Settings(SCENARIO_NS);
 		nrofGroups = s.getInt(NROF_GROUPS_S);
 
@@ -138,6 +156,12 @@ public class SimScenario implements Serializable {
 		this.endTime = s.getDouble(END_TIME_S);
 		this.updateInterval = s.getDouble(UP_INT_S);
 		this.simulateConnections = s.getBoolean(SIM_CON_S);
+
+		// selfish
+		this.selfishBehavior = s.getBoolean(SELF_BEHAVIOR);
+		// this.selfishThreshold = s.getInt(SELF_THRESH);
+		
+		
 
 		s.ensurePositiveValue(nrofGroups, NROF_GROUPS_S);
 		s.ensurePositiveValue(endTime, END_TIME_S);
@@ -159,7 +183,9 @@ public class SimScenario implements Serializable {
 		this.worldSizeX = worldSize[0];
 		this.worldSizeY = worldSize[1];
 
+
 		createHosts();
+		// Selfish
 
 		this.world = new World(hosts, worldSizeX, worldSizeY, updateInterval,
 				updateListeners, simulateConnections,
@@ -259,6 +285,7 @@ public class SimScenario implements Serializable {
 	public void addConnectionListener(ConnectionListener cl){
 		this.connectionListeners.add(cl);
 	}
+	
 
 	/**
 	 * Adds a new message listener for all nodes
@@ -318,7 +345,7 @@ public class SimScenario implements Serializable {
 	/**
 	 * Creates hosts for the scenario
 	 */
-	protected void createHosts() {
+	public void createHosts() {
 		this.hosts = new ArrayList<DTNHost>();
 
 		for (int i=1; i<=nrofGroups; i++) {
@@ -401,6 +428,48 @@ public class SimScenario implements Serializable {
 				hosts.add(host);
 			}
 		}
+		// selfish
+		if(this.selfishBehavior){
+			setAllSelfishDegree();
+		}
+	}
+
+	public void setAllSelfishDegree()
+	{
+		double cselfishvalue=0;
+		double pselfishvalue=0;
+		double nselfishvalue=0;
+		System.out.println( "Number of nodes: "+hosts.size());
+		double totvalue=0;
+		for(int i=0; i<hosts.size();++i){
+			Random  r = new Random();
+			int nodeSelfishDegree=r.nextInt(99)+1;//(1,100)
+			++totvalue;
+			if(nodeSelfishDegree>=0 && nodeSelfishDegree<=20)
+			{
+				hosts.get(i).setSelfishDegree(0);//(0 is complete selfish)
+				++cselfishvalue;
+			}
+			else if(nodeSelfishDegree>20 && nodeSelfishDegree<=55)
+			{
+				hosts.get(i).setSelfishDegree(1);//(1 is partial selfish)
+				++pselfishvalue;
+			}
+			else if(nodeSelfishDegree>55)
+			{
+				hosts.get(i).setSelfishDegree(2);//(2 is normal)
+				++nselfishvalue;
+			}
+			// System.out.println( "Selfish Degree is: "+(selfishvalue) *100);
+		}
+		double ctotselfishvalue=(cselfishvalue/totvalue) *100;
+		double ptotselfishvalue=(pselfishvalue/totvalue) *100;
+		double ntotselfishvalue=(nselfishvalue/totvalue) *100;
+		
+		System.out.println( "Complete Selfish Degree is: "+ctotselfishvalue);
+		System.out.println( "Partial Selfish Degree is: "+ptotselfishvalue);
+		System.out.println( "Non Selfish Degree is: "+ntotselfishvalue);
+
 	}
 
 	/**

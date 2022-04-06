@@ -26,6 +26,16 @@ public class NodeGraphic extends PlayFieldGraphic {
 	private static boolean drawBuffer;
 	private static List<DTNHost> highlightedNodes;
 
+	/**colours to identify the selfish nodes */
+	private static Color CompleteSelfishhostColor = Color.RED;
+	private static Color PartialSelfishhostColor = Color.GREEN;
+	private static Color NormalSelfishhostColor = Color.BLUE;
+
+	private static Color CompleteSelfishhostRangeColor = Color.RED;
+	private static Color PartialSelfishhostRangeColor = Color.GREEN;
+	private static Color NormalSelfishhostRangeColor = Color.BLUE;
+
+
 	private static Color rangeColor = Color.GREEN;
 	private static Color conColor = Color.BLACK;
 	private static Color hostColor = Color.BLUE;
@@ -81,8 +91,21 @@ public class NodeGraphic extends PlayFieldGraphic {
 						scale(range * 2));
 
 				// draw the "range" circle
-				g2.setColor(rangeColor);
-				g2.draw(coverage);
+				if(node.selfishdegree==0)
+				{
+					g2.setColor(CompleteSelfishhostRangeColor);
+					g2.draw(coverage);	
+				}
+				else if(node.selfishdegree==1)
+				{
+					g2.setColor(PartialSelfishhostRangeColor);
+					g2.draw(coverage);
+				}
+				else
+				{
+					g2.setColor(NormalSelfishhostRangeColor);
+					g2.draw(coverage);
+				}
 			}
 		}
 
@@ -105,12 +128,25 @@ public class NodeGraphic extends PlayFieldGraphic {
 			}
 		}
 
-
-		/* draw node rectangle */
-		g2.setColor(hostColor);
-		g2.drawRect(scale(loc.getX()-1),scale(loc.getY()-1),
-		scale(2),scale(2));
-
+		/** segregate selfish and altruistic nodes */
+		if(node.selfishdegree==0)
+		{	
+			g2.setColor(CompleteSelfishhostColor);
+			g2.drawRect(scale(loc.getX()-1),scale(loc.getY()-1),
+			scale(2),scale(2));
+		}
+		else if(node.selfishdegree==1)
+		{
+			g2.setColor(PartialSelfishhostColor);
+			g2.drawRect(scale(loc.getX()-1),scale(loc.getY()-1),
+			scale(2),scale(2));
+		}
+		else
+		{
+			g2.setColor(NormalSelfishhostColor);
+			g2.drawRect(scale(loc.getX()-1),scale(loc.getY()-1),
+			scale(2),scale(2));
+		}
 		if (isHighlighted()) {
 			g2.setColor(highlightedNodeColor);
 			g2.fillRect(scale(loc.getX()) - 3 ,scale(loc.getY()) - 3, 6, 6);
@@ -159,6 +195,8 @@ public class NodeGraphic extends PlayFieldGraphic {
 	public static void setHighlightedNodes(List<DTNHost> nodes) {
 		highlightedNodes = nodes;
 	}
+
+	
 
 	/**
 	 * Visualize the messages this node is carrying
