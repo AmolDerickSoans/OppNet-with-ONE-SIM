@@ -105,7 +105,6 @@ public class SimScenario implements Serializable {
 	/** Should connections between hosts be simulated */
 	private boolean simulateConnections;
 	/** Map used for host movement (if any) */
-
 	private SimMap simMap;
 
 	/** Global connection event listeners */
@@ -159,6 +158,8 @@ public class SimScenario implements Serializable {
 		int [] worldSize = s.getCsvInts(MovementModel.WORLD_SIZE, 2);
 		this.worldSizeX = worldSize[0];
 		this.worldSizeY = worldSize[1];
+
+		createHosts();
 
 		this.world = new World(hosts, worldSizeX, worldSizeY, updateInterval,
 				updateListeners, simulateConnections,
