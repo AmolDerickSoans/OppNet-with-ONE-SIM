@@ -11,7 +11,7 @@ Scenario.endTime = 4320
 
 ##selfish
 Scenario.selfishBehavior= true
-Scenario.selfishThreshold = 40
+# Scenario.selfishThreshold = 40
 
 ## Interface-specific settings:
 # type : which interface class the interface belongs to
@@ -158,7 +158,7 @@ MapBasedMovement.mapFile4 = data/shops.wkt
 ## Reports - all report names have to be valid report classes
 
 # how many reports to load
-Report.nrofReports = 1
+Report.nrofReports = 2
 # length of the warm up period (simulated seconds)
 Report.warmup = 0
 # default directory of reports (can be overridden per Report with output setting)
@@ -166,9 +166,9 @@ Report.reportDir = reports/
 # Report classes to load
 Report.granularity = 432
 
-# Report.report1 = MessageStatsReport
+Report.report1 = MessageStatsReport
 # Report.report1 = SnapshotReport
-Report.report1 = TrustReport
+Report.report2 = TrustReport
 
 
 ## Default settings for some routers settings

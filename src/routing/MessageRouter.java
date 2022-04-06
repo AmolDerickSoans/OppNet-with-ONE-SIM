@@ -346,7 +346,7 @@ public abstract class MessageRouter {
 		Message newMessage = m.replicate();
 	
 			if(m.getTo()!=getHost()){
-				if(getHost().isSelfish()==true){
+				if(getHost().selfishdegree==1){
 					
 					// System.out.println("DENIED_SELFISH");
 					return DENIED_SELFISH;

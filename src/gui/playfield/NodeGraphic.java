@@ -118,6 +118,7 @@ public class NodeGraphic extends PlayFieldGraphic {
 
 		/** segregate selfish and altruistic nodes */
 		if(node.isSelfish()){
+			
 			g2.setColor(SelfishhostColor);
 		g2.drawRect(scale(loc.getX()-1),scale(loc.getY()-1),
 		scale(2),scale(2));
