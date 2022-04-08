@@ -432,6 +432,12 @@ public class SimScenario implements Serializable {
 		if(this.selfishBehavior){
 			setAllSelfishDegree();
 		}
+		else
+		{
+			for(int i=0; i<hosts.size();++i){
+				hosts.get(i).setSelfishDegree(5);
+			}
+		}
 	}
 
 	public void setAllSelfishDegree()
@@ -450,7 +456,7 @@ public class SimScenario implements Serializable {
 				hosts.get(i).setSelfishDegree(0);//(0 is complete selfish)
 				++cselfishvalue;
 			}
-			else if(nodeSelfishDegree>20 && nodeSelfishDegree<=55)
+			else if(nodeSelfishDegree>20 && nodeSelfishDegree<=45)
 			{
 				hosts.get(i).setSelfishDegree(1);//(1 is partial selfish)
 				++pselfishvalue;
@@ -466,9 +472,9 @@ public class SimScenario implements Serializable {
 		double ptotselfishvalue=(pselfishvalue/totvalue) *100;
 		double ntotselfishvalue=(nselfishvalue/totvalue) *100;
 		
-		System.out.println( "Complete Selfish Degree is: "+ctotselfishvalue);
-		System.out.println( "Partial Selfish Degree is: "+ptotselfishvalue);
-		System.out.println( "Non Selfish Degree is: "+ntotselfishvalue);
+		System.out.println( "WhiteHole Node Degree is: "+ctotselfishvalue);
+		System.out.println( "BlackHole Node Degree is: "+ptotselfishvalue);
+		System.out.println( "Normal Node Degree is: "+ntotselfishvalue);
 
 	}
 

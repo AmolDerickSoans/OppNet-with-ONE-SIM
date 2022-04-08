@@ -346,22 +346,23 @@ public abstract class MessageRouter {
 	 */
 	public int receiveMessage(Message m, DTNHost from) {
 		Message newMessage = m.replicate();
-	
+			
 			if(from.selfishdegree==1)
 			{
 				if(m.getTo()!=getHost())
 				{
 					if(getHost().selfishdegree==1){
 						
-						System.out.println("PARTIAL TO PARTIAL --SENT");
+						// System.out.println("PARTIAL TO PARTIAL --SENT");
+						return DENIED_SELFISH;
 					}
 					else if(getHost().selfishdegree==0){
 						
-						System.out.println("PARTIAL TO COMPLETE --SENT");
+						// System.out.println("PARTIAL TO COMPLETE --SENT");
 					}
 					else{
 						
-						System.out.println("PARTIAL TO NORMAL --DENIED");
+						// System.out.println("PARTIAL TO NORMAL --DENIED");
 						return DENIED_SELFISH;
 					}
 				}
@@ -372,24 +373,24 @@ public abstract class MessageRouter {
 				{
 					if(getHost().selfishdegree==1){
 						
-						System.out.println("COMPLETE TO PARTIAL --DENIED");
+						// System.out.println("COMPLETE TO PARTIAL --DENIED");
 						return DENIED_SELFISH;
 					}
 					else if(getHost().selfishdegree==0){
 						
-						System.out.println("COMPLETE TO COMPLETE --DENIED");
+						// System.out.println("COMPLETE TO COMPLETE --DENIED");
 						return DENIED_SELFISH;
 					}
 					else{
-						System.out.println("COMPLETE TO NORMAL --DENIED");
+						// System.out.println("COMPLETE TO NORMAL --DENIED");
 						return DENIED_SELFISH;
 					}
 				}
 			}	
-			else
-			{
-				System.out.println("NORMAL TO EVERYTHING --SENT");
-			}
+			// else
+			// {
+			// 	System.out.println("NORMAL TO EVERYTHING --SENT");
+			// }
 
 			// if(m.getTo()!=getHost()){
 			// 	if(getHost().selfishdegree==1){
