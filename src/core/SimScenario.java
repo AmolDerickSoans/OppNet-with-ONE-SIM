@@ -475,7 +475,7 @@ public class SimScenario implements Serializable {
 		System.out.println( "WhiteHole Node Degree is: "+ctotselfishvalue);
 		System.out.println( "BlackHole Node Degree is: "+ptotselfishvalue);
 		System.out.println( "Normal Node Degree is: "+ntotselfishvalue);
-
+		System.out.println( "Normal Node Degree is: "+ctotselfishvalue + ptotselfishvalue);
 	}
 
 	/**
