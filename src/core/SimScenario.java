@@ -43,7 +43,8 @@ public class SimScenario implements Serializable {
 
 	// selfish
 	public static final String SELF_BEHAVIOR = "selfishBehavior";
-	// public static final String SELF_THRESH = "selfishThreshold";
+	public static final String SELF_THRESH1 = "selfishThreshold1";
+	public static final String SELF_THRESH2 = "selfishThreshold2";
 
 	/** namespace for interface type settings ({@value}) */
 	public static final String INTTYPE_NS = "Interface";
@@ -112,7 +113,8 @@ public class SimScenario implements Serializable {
 
 	// selfish
 	public boolean selfishBehavior;
-	// public int selfishThreshold;
+	public int selfishThreshold1;
+	public int selfishThreshold2;
 
 	/** Map used for host movement (if any) */
 	private SimMap simMap;
@@ -159,7 +161,8 @@ public class SimScenario implements Serializable {
 
 		// selfish
 		this.selfishBehavior = s.getBoolean(SELF_BEHAVIOR);
-		// this.selfishThreshold = s.getInt(SELF_THRESH);
+		this.selfishThreshold1 = s.getInt(SELF_THRESH1);
+		this.selfishThreshold2 = s.getInt(SELF_THRESH2);
 		
 		
 
@@ -449,24 +452,23 @@ public class SimScenario implements Serializable {
 		double totvalue=0;
 		for(int i=0; i<hosts.size();++i){
 			Random  r = new Random();
-			int nodeSelfishDegree=r.nextInt(99)+1;//(1,100)
+			// int nodeSelfishDegree=r.nextInt(99)+1;//(1,100)
 			++totvalue;
-			if(nodeSelfishDegree>=0 && nodeSelfishDegree<=20)
+			if(i>=0 && i<selfishThreshold1)
 			{
-				hosts.get(i).setSelfishDegree(0);//(0 is complete selfish)
+				hosts.get(i).setSelfishDegree(0);//(0 is whitehole)
 				++cselfishvalue;
 			}
-			else if(nodeSelfishDegree>20 && nodeSelfishDegree<=45)
+			else if(i>=selfishThreshold1 && i<selfishThreshold2)
 			{
-				hosts.get(i).setSelfishDegree(1);//(1 is partial selfish)
+				hosts.get(i).setSelfishDegree(1);//(1 is blackhole)
 				++pselfishvalue;
 			}
-			else if(nodeSelfishDegree>55)
+			else
 			{
 				hosts.get(i).setSelfishDegree(2);//(2 is normal)
 				++nselfishvalue;
 			}
-			// System.out.println( "Selfish Degree is: "+(selfishvalue) *100);
 		}
 		double ctotselfishvalue=(cselfishvalue/totvalue) *100;
 		double ptotselfishvalue=(pselfishvalue/totvalue) *100;

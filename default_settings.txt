@@ -32,7 +32,8 @@ Scenario.nrofHostGroups = 1
 
 ##selfish
 Scenario.selfishBehavior= true
-# Scenario.selfishThreshold = 40
+Scenario.selfishThreshold1= 10
+Scenario.selfishThreshold2= 40
 
 ## Group-specific settings:
 # groupID : Group's identifier. Used as the prefix of host names
