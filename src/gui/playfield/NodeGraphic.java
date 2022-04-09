@@ -31,9 +31,9 @@ public class NodeGraphic extends PlayFieldGraphic {
 	private static Color PartialSelfishhostColor = Color.GREEN;
 	private static Color NormalSelfishhostColor = Color.BLUE;
 
-	private static Color CompleteSelfishhostRangeColor = Color.RED;
-	private static Color PartialSelfishhostRangeColor = Color.GREEN;
-	private static Color NormalSelfishhostRangeColor = Color.BLUE;
+	private static Color CompleteSelfishhostRangeColor = Color.YELLOW;
+	private static Color PartialSelfishhostRangeColor = Color.BLACK;
+	private static Color NormalSelfishhostRangeColor = Color.GREEN;
 
 
 	private static Color rangeColor = Color.GREEN;
