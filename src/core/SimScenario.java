@@ -44,7 +44,7 @@ public class SimScenario implements Serializable {
 	// selfish
 	public static final String SELF_BEHAVIOR = "selfishBehavior";
 	public static final String SELF_THRESH1 = "selfishThreshold1";
-	public static final String SELF_THRESH2 = "selfishThreshold2";
+	//public static final String SELF_THRESH2 = "selfishThreshold2";
 
 	/** namespace for interface type settings ({@value}) */
 	public static final String INTTYPE_NS = "Interface";
@@ -114,7 +114,7 @@ public class SimScenario implements Serializable {
 	// selfish
 	public boolean selfishBehavior;
 	public int selfishThreshold1;
-	public int selfishThreshold2;
+	//public int selfishThreshold2;
 
 	/** Map used for host movement (if any) */
 	private SimMap simMap;
@@ -162,7 +162,7 @@ public class SimScenario implements Serializable {
 		// selfish
 		this.selfishBehavior = s.getBoolean(SELF_BEHAVIOR);
 		this.selfishThreshold1 = s.getInt(SELF_THRESH1);
-		this.selfishThreshold2 = s.getInt(SELF_THRESH2);
+		//this.selfishThreshold2 = s.getInt(SELF_THRESH2);
 		
 		
 
@@ -459,7 +459,7 @@ public class SimScenario implements Serializable {
 				hosts.get(i).setSelfishDegree(0);//(0 is whitehole)
 				++cselfishvalue;
 			}
-			else if(i>=selfishThreshold1 && i<selfishThreshold2)
+			else if(i>=selfishThreshold1 && i<selfishThreshold1 + selfishThreshold1)
 			{
 				hosts.get(i).setSelfishDegree(1);//(1 is blackhole)
 				++pselfishvalue;
@@ -477,7 +477,7 @@ public class SimScenario implements Serializable {
 		System.out.println( "WhiteHole Node Degree is: "+ctotselfishvalue);
 		System.out.println( "BlackHole Node Degree is: "+ptotselfishvalue);
 		System.out.println( "Normal Node Degree is: "+ntotselfishvalue);
-		System.out.println( "Normal Node Degree is: "+ctotselfishvalue + ptotselfishvalue);
+		//System.out.println( "Malicious Degree is: "+ctotselfishvalue + ptotselfishvalue);
 	}
 
 	/**

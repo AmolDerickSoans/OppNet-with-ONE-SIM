@@ -3,11 +3,11 @@
 #
 
 ## Scenario settings
-Scenario.name = default_scenario
+Scenario.name = epidemicwithoracle_scenario_10
 Scenario.simulateConnections = true
 Scenario.updateInterval = 0.1
 # 43200s == 12h
-Scenario.endTime = 3600
+Scenario.endTime = 18000
 
 ## Interface-specific settings:
 # type : which interface class the interface belongs to
@@ -32,8 +32,8 @@ Scenario.nrofHostGroups = 1
 
 ##selfish
 Scenario.selfishBehavior= true
-Scenario.selfishThreshold1= 10
-Scenario.selfishThreshold2= 40
+Scenario.selfishThreshold1= 0
+#Scenario.selfishThreshold2= 10
 
 ## Group-specific settings:
 # groupID : Group's identifier. Used as the prefix of host names
@@ -57,7 +57,7 @@ Scenario.selfishThreshold2= 40
 
 # Common settings for all groups
 Group.movementModel = ShortestPathMapBasedMovement
-Group.router = EpidemicRouter
+Group.router = EpidemicOracleRouter
 Group.bufferSize = 5M
 Group.waitTime = 0, 120
 # All nodes have the bluetooth interface

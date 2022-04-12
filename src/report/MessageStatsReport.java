@@ -155,24 +155,24 @@ public class MessageStatsReport extends Report implements MessageListener {
 				this.nrofResponseReqCreated;
 		}
 
-		String statsText = "created: " + this.nrofCreated +
-			"\nstarted: " + this.nrofStarted +
-			"\nrelayed: " + this.nrofRelayed +
-			"\naborted: " + this.nrofAborted +
-			"\ndropped: " + this.nrofDropped +
-			"\nremoved: " + this.nrofRemoved +
-			"\ndelivered: " + this.nrofDelivered +
-			"\ndelivery_prob: " + format(deliveryProb) +
-			"\nresponse_prob: " + format(responseProb) +
-			"\noverhead_ratio: " + format(overHead) +
-			"\nlatency_avg: " + getAverage(this.latencies) +
-			"\nlatency_med: " + getMedian(this.latencies) +
-			"\nhopcount_avg: " + getIntAverage(this.hopCounts) +
-			"\nhopcount_med: " + getIntMedian(this.hopCounts) +
-			"\nbuffertime_avg: " + getAverage(this.msgBufferTime) +
-			"\nbuffertime_med: " + getMedian(this.msgBufferTime) +
-			"\nrtt_avg: " + getAverage(this.rtt) +
-			"\nrtt_med: " + getMedian(this.rtt)
+		String statsText = "\n nrofCreated" + this.nrofCreated +
+			"\n nrofStarted" + this.nrofStarted +
+			"\n nrofRelayed" + this.nrofRelayed +
+			"\n nrofAborted" + this.nrofAborted +
+			"\n nrofDropped" + this.nrofDropped +
+			"\n nrofRemoved" + this.nrofRemoved +
+			"\n nrofDelivered" + this.nrofDelivered +
+			"\n deliveryProb" + format(deliveryProb) +
+			"\n responseProb" + format(responseProb) +
+			"\n overHead" + format(overHead) +
+			"\n Avg_latencies" + getAverage(this.latencies) +
+			"\n Med_latencies" + getMedian(this.latencies) +
+			"\nAvg_hopCounts" + getIntAverage(this.hopCounts) +
+			"\nMed_hopCounts" + getIntMedian(this.hopCounts) +
+			"\nAvg_msgBufferTime" + getAverage(this.msgBufferTime) +
+			"\nMed_msgBufferTime" + getMedian(this.msgBufferTime) +
+			"\nAvg_rtt" + getAverage(this.rtt) +
+			"\nMed_rtt" + getMedian(this.rtt)
 			;
 
 		write(statsText);
