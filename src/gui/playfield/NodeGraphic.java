@@ -27,17 +27,17 @@ public class NodeGraphic extends PlayFieldGraphic {
 	private static List<DTNHost> highlightedNodes;
 
 	/**colours to identify the selfish nodes */
-	private static Color SelfishrangeColor = Color.PINK;
-	private static Color SelfishhostColor = Color.PINK;
+	private static Color SelfishrangeColor = Color.RED;
+	private static Color SelfishhostColor = Color.RED;
 
 
-	private static Color rangeColor = Color.BLACK;
+	private static Color rangeColor = Color.GREEN;
 	private static Color conColor = Color.BLACK;
-	private static Color hostColor = Color.BLUE;
+	private static Color hostColor = Color.GREEN;
 	private static Color hostNameColor = Color.BLUE;
-	private static Color msgColor1 = Color.BLUE;
-	private static Color msgColor2 = Color.GREEN;
-	private static Color msgColor3 = Color.RED;
+	private static Color msgColor1 = Color.YELLOW;
+	private static Color msgColor2 = Color.BLACK;
+	private static Color msgColor3 = Color.PINK;
 
 	private static Color highlightedNodeColor = Color.MAGENTA;
 

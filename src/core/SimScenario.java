@@ -43,7 +43,7 @@ public class SimScenario implements Serializable {
 
 	// selfish
 	public static final String SELF_BEHAVIOR = "selfishBehavior";
-	// public static final String SELF_THRESH = "selfishThreshold";
+	public static final String SELF_THRESH = "selfishThreshold";
 
 	/** namespace for interface type settings ({@value}) */
 	public static final String INTTYPE_NS = "Interface";
@@ -112,7 +112,7 @@ public class SimScenario implements Serializable {
 
 	// selfish
 	public boolean selfishBehavior;
-	// public int selfishThreshold;
+	public int selfishThreshold;
 
 	/** Map used for host movement (if any) */
 	private SimMap simMap;
@@ -159,7 +159,7 @@ public class SimScenario implements Serializable {
 
 		// selfish
 		this.selfishBehavior = s.getBoolean(SELF_BEHAVIOR);
-		// this.selfishThreshold = s.getInt(SELF_THRESH);
+		this.selfishThreshold = s.getInt(SELF_THRESH);
 		
 		
 
@@ -430,11 +430,11 @@ public class SimScenario implements Serializable {
 		}
 		//selfish
 		if(this.selfishBehavior){
-			setAllSelfishDegree(50);
+			setAllSelfishDegree();
 		}
 	}
 
-	public void setAllSelfishDegree(int selfishThreshold)
+	public void setAllSelfishDegree()
 	{
 		double selfishvalue=0;
 		double totvalue=0;

@@ -11,8 +11,8 @@ Scenario.endTime = 4320
 
 ##selfish
 Scenario.selfishBehavior= true
-# Scenario.selfishThreshold = 40
-
+# Scenario.selfishThreshold.rngSeed = [0; 10; 20; 30; 40; 50; 60; 70; 80; 90]
+Scenario.selfishThreshold=100
 ## Interface-specific settings:
 # type : which interface class the interface belongs to
 # For different types, the sub-parameters are interface-specific
@@ -68,7 +68,7 @@ Group.speed = 0.5, 1.5
 # Message TTL of 300 minutes (5 hours)
 Group.msgTtl = 300
 
-Group.nrofHosts = 100
+Group.nrofHosts = 126
 
 Group.initialEnergy = 4800
 Group.scanEnergy = 0.06

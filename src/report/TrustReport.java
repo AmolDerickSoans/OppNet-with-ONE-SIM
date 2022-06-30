@@ -62,7 +62,7 @@ public class TrustReport extends Report implements UpdateListener{
 		if(scen.selfishBehavior){
 			Random r = new Random();
 			int randomThreshold=r.nextInt(29)+40;
-			scen.setAllSelfishDegree(randomThreshold);//[1 0 0 1 1]
+			// scen.setAllSelfishDegree(randomThreshold);//[1 0 0 1 1]
 														//[0 0 0 0]
 			int j=0;
 			for(DTNHost h: hosts)

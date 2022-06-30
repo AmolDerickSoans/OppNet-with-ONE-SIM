@@ -136,8 +136,8 @@ public class ml_report extends Report implements MessageListener {
 
 	@Override
 	public void done() {
-		write("Message stats for scenario " + getScenarioName() +
-				"\nsim_time: " + format(getSimTime()));
+		// write("Message stats for scenario " + getScenarioName() +
+		// 		"\nsim_time: " + format(getSimTime()));
 		double deliveryProb = 0; // delivery probability
 		double responseProb = 0; // request-response success probability
 		double overHead = Double.NaN;	// overhead ratio
