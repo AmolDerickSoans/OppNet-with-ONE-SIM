@@ -3,15 +3,18 @@
 #
 
 ## Scenario settings
-Scenario.name = default_scenario
+Scenario.name = [0;5;10;15;20;25;30;35;40;45;50;55;60;65;70;75;80;85;90;95]
+#Scenario.name = [0;5;10;15;20;25;30;35;40;45;50;55;60;65]
 Scenario.simulateConnections = true
 Scenario.updateInterval = 0.1
 # 43200s == 12h
-Scenario.endTime = 4320
+Scenario.endTime = 18000
+
 
 ##selfish
 Scenario.selfishBehavior= true
-Scenario.selfishThreshold = 40
+Scenario.selfishThreshold = [0;5;10;15;20;25;30;35;40;45;50;55;60;65;70;75;80;85;90;95]
+#Scenario.selfishThreshold = [0;5;10;15;20;25;30;35;40;45;50;55;60;65]
 
 ## Interface-specific settings:
 # type : which interface class the interface belongs to
@@ -57,7 +60,7 @@ Scenario.nrofHostGroups = 6
 
 # Common settings for all groups
 Group.movementModel = ShortestPathMapBasedMovement
-Group.router = EpidemicRouter
+Group.router = ProphetRouter
 Group.bufferSize = 5M
 Group.waitTime = 0, 120
 # All nodes have the bluetooth interface
@@ -74,7 +77,7 @@ Group.initialEnergy = 4800
 Group.scanEnergy = 0.06
 Group.scanResponseEnergy = 0.08
 Group.transmitEnergy = 0.08
-Group.baseEnergy = 0.07
+Group .baseEnergy = 0.07
 Group.charging_cofficient = 20
 Group.threshold_energy = 3000
 
@@ -166,9 +169,9 @@ Report.reportDir = reports/
 # Report classes to load
 Report.granularity = 432
 
-# Report.report1 = MessageStatsReport
+Report.report1 = MessageStatsReport
 # Report.report1 = SnapshotReport
-Report.report1 = TrustReport
+# Report.report1 = TrustReport
 
 
 ## Default settings for some routers settings

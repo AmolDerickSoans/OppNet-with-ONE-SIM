@@ -23,7 +23,10 @@ public class EpidemicRouterWithScore extends ActiveRouter {
         super(r);
         score = new HashMap<Integer,Integer>();
     }
-
+    //psuedo code
+    // set base trust of 100
+    // N1 -> N2 -x N3 ==== N1 should update score for N2 (-5) X
+    // N1 -> N2 -x N3 ==== 
     @Override
     public void changedConnection(Connection con){
         super.changedConnection(con);

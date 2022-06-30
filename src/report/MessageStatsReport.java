@@ -155,24 +155,24 @@ public class MessageStatsReport extends Report implements MessageListener {
 				this.nrofResponseReqCreated;
 		}
 
-		String statsText = "created: " + this.nrofCreated +
-			"\nstarted: " + this.nrofStarted +
-			"\nrelayed: " + this.nrofRelayed +
-			"\naborted: " + this.nrofAborted +
-			"\ndropped: " + this.nrofDropped +
-			"\nremoved: " + this.nrofRemoved +
-			"\ndelivered: " + this.nrofDelivered +
-			"\ndelivery_prob: " + format(deliveryProb) +
-			"\nresponse_prob: " + format(responseProb) +
-			"\noverhead_ratio: " + format(overHead) +
-			"\nlatency_avg: " + getAverage(this.latencies) +
-			"\nlatency_med: " + getMedian(this.latencies) +
-			"\nhopcount_avg: " + getIntAverage(this.hopCounts) +
-			"\nhopcount_med: " + getIntMedian(this.hopCounts) +
-			"\nbuffertime_avg: " + getAverage(this.msgBufferTime) +
-			"\nbuffertime_med: " + getMedian(this.msgBufferTime) +
-			"\nrtt_avg: " + getAverage(this.rtt) +
-			"\nrtt_med: " + getMedian(this.rtt)
+		String statsText = "" + this.nrofCreated +
+			"\n" + this.nrofStarted +
+			"\n" + this.nrofRelayed +
+			"\n" + this.nrofAborted +
+			"\n" + this.nrofDropped +
+			"\n" + this.nrofRemoved +
+			"\n" + this.nrofDelivered +
+			"\n" + format(deliveryProb) +
+			"\n" + format(responseProb) +
+			"\n" + format(overHead) +
+			"\n" + getAverage(this.latencies) +
+			"\n" + getMedian(this.latencies) +
+			"\n" + getIntAverage(this.hopCounts) +
+			"\n" + getIntMedian(this.hopCounts) +
+			"\n" + getAverage(this.msgBufferTime) +
+			"\n" + getMedian(this.msgBufferTime) +
+			"\n" + getAverage(this.rtt) +
+			"\n" + getMedian(this.rtt)
 			;
 
 		write(statsText);
