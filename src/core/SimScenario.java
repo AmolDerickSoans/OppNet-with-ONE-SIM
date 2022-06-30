@@ -429,9 +429,9 @@ public class SimScenario implements Serializable {
 			}
 		}
 		//selfish
-		// if(this.selfishBehavior){
-		// 	setAllSelfishDegree();
-		// }
+		if(this.selfishBehavior){
+			setAllSelfishDegree(50);
+		}
 	}
 
 	public void setAllSelfishDegree(int selfishThreshold)
