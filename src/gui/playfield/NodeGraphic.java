@@ -27,12 +27,12 @@ public class NodeGraphic extends PlayFieldGraphic {
 	private static List<DTNHost> highlightedNodes;
 
 	/**colours to identify the selfish nodes */
-	private static Color SelfishrangeColor = Color.RED;
-	private static Color SelfishconColor = Color.BLACK;
-	private static Color SelfishhostColor = Color.PINK;
+	// private static Color SelfishrangeColor = Color.RED;
+	// private static Color SelfishconColor = Color.BLACK;
+	// private static Color SelfishhostColor = Color.PINK;
 
 
-	private static Color rangeColor = Color.GREEN;
+	private static Color rangeColor = Color.BLACK;
 	private static Color conColor = Color.BLACK;
 	private static Color hostColor = Color.BLUE;
 	private static Color hostNameColor = Color.BLUE;
@@ -87,13 +87,26 @@ public class NodeGraphic extends PlayFieldGraphic {
 						scale(range * 2));
 
 				// draw the "range" circle
-				if(node.isSelfish()){
-					g2.setColor(SelfishrangeColor);
+				//group
+				if(node.color=="GREEN")
+				{
+					g2.setColor(Color.GREEN);
+					g2.draw(coverage);	
+				}
+				else if(node.color=="RED")
+				{
+					g2.setColor(Color.RED);
+					g2.draw(coverage);	
+				}
+				else if(node.color=="BLUE")
+				{
+					g2.setColor(Color.BLUE);
 					g2.draw(coverage);	
 				}
 				else{
 				g2.setColor(rangeColor);
-				g2.draw(coverage);}
+				g2.draw(coverage);
+				}
 			}
 		}
 
@@ -117,18 +130,21 @@ public class NodeGraphic extends PlayFieldGraphic {
 		}
 
 		/** segregate selfish and altruistic nodes */
-		if(node.isSelfish()){
-			
-			g2.setColor(SelfishhostColor);
-		g2.drawRect(scale(loc.getX()-1),scale(loc.getY()-1),
-		scale(2),scale(2));
-		}
-		else{
-		/* draw node rectangle */
-		g2.setColor(hostColor);
-		g2.drawRect(scale(loc.getX()-1),scale(loc.getY()-1),
-		scale(2),scale(2));
-		}
+		//group
+		// if(node.isSelfish())
+		// {	
+		// 	g2.setColor(SelfishhostColor);
+		// 	g2.drawRect(scale(loc.getX()-1),scale(loc.getY()-1),
+		// 	scale(2),scale(2));
+		// }
+		// else{
+		// /* draw node rectangle */
+			g2.setColor(hostColor);
+			g2.drawRect(scale(loc.getX()-1),scale(loc.getY()-1),
+			scale(2),scale(2));
+		// }
+
+
 		if (isHighlighted()) {
 			g2.setColor(highlightedNodeColor);
 			g2.fillRect(scale(loc.getX()) - 3 ,scale(loc.getY()) - 3, 6, 6);

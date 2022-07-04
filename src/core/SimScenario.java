@@ -43,7 +43,7 @@ public class SimScenario implements Serializable {
 
 	// selfish
 	public static final String SELF_BEHAVIOR = "selfishBehavior";
-	// public static final String SELF_THRESH = "selfishThreshold";
+	public static final String SELF_THRESH = "selfishThreshold";
 
 	/** namespace for interface type settings ({@value}) */
 	public static final String INTTYPE_NS = "Interface";
@@ -63,6 +63,7 @@ public class SimScenario implements Serializable {
 	public static final String GROUP_NS = "Group";
 	/** group id -setting id ({@value})*/
 	public static final String GROUP_ID_S = "groupID";
+	public static final String GROUP_COLOR = "color";
 	/** number of hosts in the group -setting id ({@value})*/
 	public static final String NROF_HOSTS_S = "nrofHosts";
 	/** movement model class -setting id ({@value})*/
@@ -112,7 +113,7 @@ public class SimScenario implements Serializable {
 
 	// selfish
 	public boolean selfishBehavior;
-	// public int selfishThreshold;
+	public int selfishThreshold;
 
 	/** Map used for host movement (if any) */
 	private SimMap simMap;
@@ -140,13 +141,6 @@ public class SimScenario implements Serializable {
 	/**
 	 * Creates a scenario based on Settings object.
 	 */
-	// public SimScenario(int selfthres)
-	// {
-	// 	// Settings s = new Settings(SCENARIO_NS);
-	// 	// this.selfishBehavior = s.getBoolean(SELF_BEHAVIOR);
-	// 	this.selfishThreshold = 70;
-	// 	createHosts();
-	// }
 	public SimScenario() {
 		
 		Settings s = new Settings(SCENARIO_NS);
@@ -159,7 +153,7 @@ public class SimScenario implements Serializable {
 
 		// selfish
 		this.selfishBehavior = s.getBoolean(SELF_BEHAVIOR);
-		// this.selfishThreshold = s.getInt(SELF_THRESH);
+		this.selfishThreshold = s.getInt(SELF_THRESH);
 		
 		
 
@@ -185,7 +179,6 @@ public class SimScenario implements Serializable {
 
 
 		createHosts();
-		// Selfish
 
 		this.world = new World(hosts, worldSizeX, worldSizeY, updateInterval,
 				updateListeners, simulateConnections,
@@ -354,6 +347,7 @@ public class SimScenario implements Serializable {
 			Settings s = new Settings(GROUP_NS+i);
 			s.setSecondaryNamespace(GROUP_NS);
 			String gid = s.getSetting(GROUP_ID_S);
+			String gcolor = s.getSetting(GROUP_COLOR);
 			int nrofHosts = s.getInt(NROF_HOSTS_S);
 			int nrofInterfaces = s.getInt(NROF_INTERF_S);
 			int appCount;
@@ -425,24 +419,26 @@ public class SimScenario implements Serializable {
 				DTNHost host = new DTNHost(this.messageListeners,
 						this.movementListeners,	gid, interfaces, comBus,
 						mmProto, mRouterProto);
+						host.color=gcolor;
+						// setgroupcolor(gcolor)
 				hosts.add(host);
 			}
 		}
 		//selfish
-		// if(this.selfishBehavior){
-		// 	setAllSelfishDegree();
-		// }
+		if(this.selfishBehavior){
+			setAllSelfishDegree(selfishThreshold);
+		}
 	}
 
-	public void setAllSelfishDegree(int selfishThreshold)
+	public void setAllSelfishDegree(int st)
 	{
 		double selfishvalue=0;
 		double totvalue=0;
-		for(int i=0; i<hosts.size();++i){
+		for(int i=1; i<hosts.size()-1;++i){
 			Random  r = new Random();
 			int nodeSelfishDegree=r.nextInt(99)+1;//(1,100)
 			++totvalue;
-			if(nodeSelfishDegree<=selfishThreshold)
+			if(nodeSelfishDegree<=st)
 			{
 				hosts.get(i).setSelfishDegree(1);//(1 is selfish)
 				++selfishvalue;
@@ -454,7 +450,7 @@ public class SimScenario implements Serializable {
 			// System.out.println( "Selfish Degree is: "+(selfishvalue) *100);
 		}
 		double totselfishvalue=(selfishvalue/totvalue) *100;
-		System.out.println( "Selfish Degree is: "+totselfishvalue);
+		System.out.println( "Selfish Degree is: "+totselfishvalue+st);
 	}
 
 

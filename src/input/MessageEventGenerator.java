@@ -176,6 +176,7 @@ public class MessageEventGenerator implements EventQueue {
 		do {
 			to = this.toHostRange != null ? drawHostAddress(this.toHostRange):
 				drawHostAddress(this.hostRange);
+				// System.out.println("to:"+to+"\n"+"from:"+from);
 		} while (from==to);
 
 		return to;
@@ -208,7 +209,7 @@ public class MessageEventGenerator implements EventQueue {
 			/* next event would be later than the end time */
 			this.nextEventsTime = Double.MAX_VALUE;
 		}
-
+		// System.out.println(from);
 		return mce;
 	}
 
@@ -226,6 +227,7 @@ public class MessageEventGenerator implements EventQueue {
 	 */
 	protected String getID(){
 		this.id++;
+		// System.out.println(idPrefix + this.id);
 		return idPrefix + this.id;
 	}
 }

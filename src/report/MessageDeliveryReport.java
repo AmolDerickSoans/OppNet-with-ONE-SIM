@@ -15,7 +15,7 @@ import core.MessageListener;
  * For output syntax, see {@link #HEADER}.
  */
 public class MessageDeliveryReport extends Report implements MessageListener {
-	public static String HEADER="# time  created  delivered  delivered/created";
+	public static String HEADER="time,created,delivered,delivered/created";
 	private int created;
 	private int delivered;
 
@@ -56,8 +56,8 @@ public class MessageDeliveryReport extends Report implements MessageListener {
 	 */
 	private void reportValues() {
 		double prob = (1.0 * delivered) / created;
-		write(format(getSimTime()) + " " + created + " " + delivered +
-				" " + format(prob));
+		write(format(getSimTime()) + "," + created + "," + delivered +
+				"," + format(prob));
 	}
 
 	// nothing to implement for the rest

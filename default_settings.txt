@@ -7,11 +7,11 @@ Scenario.name = default_scenario
 Scenario.simulateConnections = true
 Scenario.updateInterval = 0.1
 # 43200s == 12h
-Scenario.endTime = 4320
+Scenario.endTime = 20000
 
 ##selfish
 Scenario.selfishBehavior= false
-# Scenario.selfishThreshold = 40
+Scenario.selfishThreshold = 40
 
 ## Interface-specific settings:
 # type : which interface class the interface belongs to
@@ -59,7 +59,7 @@ Scenario.nrofHostGroups = 2
 Group.movementModel = ShortestPathMapBasedMovement
 Group.router = EpidemicRouter
 Group.bufferSize = 5M
-Group.waitTime = 0, 
+Group.waitTime = 0, 120
 # Group.color=BLUE
 # All nodes have the bluetooth interface
 Group.nrofInterfaces = 1
@@ -69,7 +69,7 @@ Group.speed = 0.5, 1.5
 # Message TTL of 300 minutes (5 hours)
 Group.msgTtl = 300
 
-Group.nrofHosts = 40
+# Group.nrofHosts = 4
 
 Group.initialEnergy = 4800
 Group.scanEnergy = 0.06
@@ -78,16 +78,24 @@ Group.transmitEnergy = 0.08
 Group.baseEnergy = 0.07
 Group.charging_cofficient = 20
 Group.threshold_energy = 3000
+Group.color=RED
 
 # group1 (pedestrians) specific settings
-Group1.groupID = p
+Group2.groupID = p
+Group2.nrofHosts = 2
+Group2.color=BLUE
+Group2.speed = 1.5, 1.9
 
+
+Group1.groupID = S
+Group1.nrofHosts = 2
+Group1.color=GREEN
+Group1.speed = 0, 0
 # group2 specific settings
-Group2.groupID = c
+# Group2.groupID = c
 # cars can drive only on roads
-Group2.okMaps = 1
+# Group2.okMaps = 1
 # 10-50 km/h
-Group2.speed = 2.7, 13.9
 
 # another group of pedestrians
 # Group3.groupID = w
@@ -131,11 +139,12 @@ Events.nrof = 1
 Events1.class = MessageEventGenerator
 # (following settings are specific for the MessageEventGenerator class)
 # Creation interval in seconds (one new message every 25 to 35 seconds)
-Events1.interval = 25,35
+Events1.interval = 1000,2000
 # Message sizes (500kB - 1MB)
 Events1.size = 500k,1M
 # range of message source/destination addresses
-Events1.hosts = 0,126
+Events1.hosts = 0,1
+Events1.tohosts = 2,3
 # Message ID prefix
 Events1.prefix = M
 
@@ -159,8 +168,7 @@ MapBasedMovement.mapFile4 = data/shops.wkt
 ## Reports - all report names have to be valid report classes
 
 # how many reports to load
-Report.nrofReports = 1
-# length of the warm up period (simulated seconds)
+Report.nrofReports = 2# length of the warm up period (simulated seconds)
 Report.warmup = 0
 # default directory of reports (can be overridden per Report with output setting)
 Report.reportDir = reports/
@@ -168,6 +176,8 @@ Report.reportDir = reports/
 Report.granularity = 432
 
 Report.report1 = MessageStatsReport
+Report.report2 = MessageDeliveryReport
+# Report.report3 = UniqueEncountersReport
 # Report.report1 = SnapshotReport
 # Report.report2 = TrustReport
 

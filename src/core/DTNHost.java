@@ -16,7 +16,7 @@ import routing.util.RoutingInfo;
 import static core.Constants.DEBUG;
 
 // our extra libs
-import java.util.Random;
+// import java.util.Random;
 
 /**
  * A DTN capable host.
@@ -41,7 +41,7 @@ public class DTNHost implements Comparable<DTNHost> {
 
 	// new params
 	public int selfishdegree;
-
+	public String color;
 
 	static {
 		DTNSim.registerForReset(DTNHost.class.getCanonicalName());

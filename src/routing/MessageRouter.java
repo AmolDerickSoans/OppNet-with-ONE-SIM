@@ -23,7 +23,7 @@ import core.SimClock;
 import core.SimError;
 import routing.util.RoutingInfo;
 import util.Tuple;
-import core.SimScenario;
+// import core.SimScenario;
 
 // public int val =0;
 /**
@@ -345,13 +345,13 @@ public abstract class MessageRouter {
 	public int receiveMessage(Message m, DTNHost from) {
 		Message newMessage = m.replicate();
 	
-			if(m.getTo()!=getHost()){
+			// if(m.getTo()!=getHost()){
 				if(getHost().selfishdegree==1){
 					
-					// System.out.println("DENIED_SELFISH");
+					// System.out.println(getHost()+" : is a blackhole");
 					return DENIED_SELFISH;
 				}
-			}
+			// }
 	
 
 		this.putToIncomingBuffer(newMessage, from);
@@ -360,8 +360,11 @@ public abstract class MessageRouter {
 		for (MessageListener ml : this.mListeners) {
 			ml.messageTransferStarted(newMessage, from, getHost());
 		}
-		
-		// System.out.println("RCV_OK");
+		// if(m.getTo()==from)
+		// {
+			// System.out.println(m.getTo()+" : "+getHost());
+			System.out.println(from+" : "+getHost());
+		// }
 		return RCV_OK; // superclass always accepts messages
 	}
 
