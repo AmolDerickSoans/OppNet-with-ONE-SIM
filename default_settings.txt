@@ -37,7 +37,7 @@ highspeedInterface.transmitSpeed = 10M
 highspeedInterface.transmitRange = 1000
 
 # Define 6 different node groups
-Scenario.nrofHostGroups = 3
+Scenario.nrofHostGroups = 2
 
 ## Group-specific settings:
 # groupID : Group's identifier. Used as the prefix of host names
@@ -73,7 +73,7 @@ Group.speed = 0.5, 1.5
 # Message TTL of 300 minutes (5 hours)
 Group.msgTtl = 300
 
-Group.nrofHosts = 20
+# Group.nrofHosts = 10
 
 Group.initialEnergy = 4800
 Group.scanEnergy = 0.06
@@ -89,19 +89,21 @@ Group.color=0
 #2 for BLUE
 
 # group1 (pedestrians) specific settings
-Group1.groupID = S
-Group1.nrofHosts = 2
-Group1.color=1
-Group1.speed = 0, 0
-Group1.nrofInterfaces = 2
-Group1.interface1 = btInterface
-Group1.interface2=highspeedInterface
+Group1.groupID = p
+Group1.nrofHosts = 15
+Group1.color=2
+Group1.speed = 1.5, 1.9
+
+# Group1.speed = 0, 0
 
 
-Group2.groupID = p
-Group2.nrofHosts = 8
-Group2.color=2
-Group2.speed = 1.5, 1.9
+
+Group2.groupID = WH
+Group2.nrofHosts = 1
+Group2.color=1
+Group2.nrofInterfaces = 2
+Group2.interface1 = btInterface
+Group2.interface2=highspeedInterface
 # group2 specific settings
 # Group2.groupID = c
 # cars can drive only on roads
@@ -109,7 +111,7 @@ Group2.speed = 1.5, 1.9
 # 10-50 km/h
 
 # another group of pedestrians
-Group3.groupID = w
+# Group3.groupID = w
 
 # The Tram groups
 # Group4.groupID = t
@@ -154,8 +156,8 @@ Events1.interval = 1000,2000
 # Message sizes (500kB - 1MB)
 Events1.size = 500k,1M
 # range of message source/destination addresses
-Events1.hosts = 0,1
-Events1.tohosts = 2,3
+Events1.hosts = 0,6
+Events1.tohosts = 15,16
 # Message ID prefix
 Events1.prefix = M
 

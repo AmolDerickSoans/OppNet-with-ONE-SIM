@@ -342,6 +342,7 @@ public abstract class MessageRouter {
 	 * than zero if node rejected the message (e.g. DENIED_OLD), value bigger
 	 * than zero if the other node should try later (e.g. TRY_LATER_BUSY).
 	 */
+	int jk=0;
 	public int receiveMessage(Message m, DTNHost from) {
 		Message newMessage = m.replicate();
 	
@@ -363,7 +364,13 @@ public abstract class MessageRouter {
 		// if(m.getTo()==from)
 		// {
 			// System.out.println(m.getTo()+" : "+getHost());
-			System.out.println(from+" : "+getHost());
+			if(getHost().toString().equalsIgnoreCase("WH15"))
+			{
+				jk++;
+				System.out.println(from+" : "+getHost());	
+				// System.out.println("Destination "+ jk);
+			}
+
 		// }
 		return RCV_OK; // superclass always accepts messages
 	}
