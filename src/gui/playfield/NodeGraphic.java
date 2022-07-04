@@ -88,17 +88,17 @@ public class NodeGraphic extends PlayFieldGraphic {
 
 				// draw the "range" circle
 				//group
-				if(node.color=="GREEN")
+				if(node.color==1)
 				{
 					g2.setColor(Color.GREEN);
 					g2.draw(coverage);	
 				}
-				else if(node.color=="RED")
+				else if(node.color==0)
 				{
 					g2.setColor(Color.RED);
 					g2.draw(coverage);	
 				}
-				else if(node.color=="BLUE")
+				else if(node.color==2)
 				{
 					g2.setColor(Color.BLUE);
 					g2.draw(coverage);	

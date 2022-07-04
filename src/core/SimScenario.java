@@ -347,7 +347,7 @@ public class SimScenario implements Serializable {
 			Settings s = new Settings(GROUP_NS+i);
 			s.setSecondaryNamespace(GROUP_NS);
 			String gid = s.getSetting(GROUP_ID_S);
-			String gcolor = s.getSetting(GROUP_COLOR);
+			int gcolor = s.getInt(GROUP_COLOR);
 			int nrofHosts = s.getInt(NROF_HOSTS_S);
 			int nrofInterfaces = s.getInt(NROF_INTERF_S);
 			int appCount;

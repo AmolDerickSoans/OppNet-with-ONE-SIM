@@ -27,13 +27,17 @@ btInterface.type = SimpleBroadcastInterface
 btInterface.transmitSpeed = 250k
 btInterface.transmitRange = 10
 
+# SourceInterface.type= SimpleBroadcastInterface
+# # Transmit speed of 2 Mbps = 250kBps
+# btInterface.transmitSpeed = 250k
+# btInterface.transmitRange = 100
 # High speed, long range, interface for group 4
 highspeedInterface.type = SimpleBroadcastInterface
 highspeedInterface.transmitSpeed = 10M
 highspeedInterface.transmitRange = 1000
 
 # Define 6 different node groups
-Scenario.nrofHostGroups = 2
+Scenario.nrofHostGroups = 3
 
 ## Group-specific settings:
 # groupID : Group's identifier. Used as the prefix of host names
@@ -69,7 +73,7 @@ Group.speed = 0.5, 1.5
 # Message TTL of 300 minutes (5 hours)
 Group.msgTtl = 300
 
-# Group.nrofHosts = 4
+Group.nrofHosts = 20
 
 Group.initialEnergy = 4800
 Group.scanEnergy = 0.06
@@ -78,19 +82,26 @@ Group.transmitEnergy = 0.08
 Group.baseEnergy = 0.07
 Group.charging_cofficient = 20
 Group.threshold_energy = 3000
-Group.color=RED
+Group.color=0
+
+#0 for RED 
+#1 for GREEN 
+#2 for BLUE
 
 # group1 (pedestrians) specific settings
-Group2.groupID = p
-Group2.nrofHosts = 2
-Group2.color=BLUE
-Group2.speed = 1.5, 1.9
-
-
 Group1.groupID = S
 Group1.nrofHosts = 2
-Group1.color=GREEN
+Group1.color=1
 Group1.speed = 0, 0
+Group1.nrofInterfaces = 2
+Group1.interface1 = btInterface
+Group1.interface2=highspeedInterface
+
+
+Group2.groupID = p
+Group2.nrofHosts = 8
+Group2.color=2
+Group2.speed = 1.5, 1.9
 # group2 specific settings
 # Group2.groupID = c
 # cars can drive only on roads
@@ -98,7 +109,7 @@ Group1.speed = 0, 0
 # 10-50 km/h
 
 # another group of pedestrians
-# Group3.groupID = w
+Group3.groupID = w
 
 # The Tram groups
 # Group4.groupID = t
@@ -168,7 +179,8 @@ MapBasedMovement.mapFile4 = data/shops.wkt
 ## Reports - all report names have to be valid report classes
 
 # how many reports to load
-Report.nrofReports = 2# length of the warm up period (simulated seconds)
+Report.nrofReports = 2
+# length of the warm up period (simulated seconds)
 Report.warmup = 0
 # default directory of reports (can be overridden per Report with output setting)
 Report.reportDir = reports/

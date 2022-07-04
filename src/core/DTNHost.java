@@ -41,7 +41,7 @@ public class DTNHost implements Comparable<DTNHost> {
 
 	// new params
 	public int selfishdegree;
-	public String color;
+	public int color;
 
 	static {
 		DTNSim.registerForReset(DTNHost.class.getCanonicalName());
