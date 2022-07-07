@@ -547,6 +547,8 @@ public class DTNHost implements Comparable<DTNHost> {
 	}
 
 	// Random selfish
+	//getter method
+
 	public boolean isSelfish (){
 		if(this.selfishdegree==1)
 		{
@@ -556,6 +558,7 @@ public class DTNHost implements Comparable<DTNHost> {
 	}
 
 	//change value for selfish degree in  SimScenario
+	//setter method
 	public void setSelfishDegree(int i){
 		this.selfishdegree = i;
 	}

@@ -2,10 +2,11 @@ package report;
 
 import java.util.List;
 import core.DTNHost;
-import core.Settings;
+// import core.Settings;
 import core.SimClock;
 import core.UpdateListener;
 import core.SimScenario;
+// import gui.playfield.DTNSimGUI;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -18,6 +19,8 @@ public class TrustReport extends Report implements UpdateListener{
 	private List<Integer>trustcount;
 	private int count=0;
 	protected SimScenario scen;
+	// protected DTNSimGUI pl;
+
 
 	public TrustReport() {
 		super();
@@ -27,6 +30,7 @@ public class TrustReport extends Report implements UpdateListener{
 		}
 
 		this.scen = SimScenario.getInstance();
+		// this.pl = PlayField.getInstance();
 		trustcount=new ArrayList<Integer>();
 	}
 
@@ -39,7 +43,7 @@ public class TrustReport extends Report implements UpdateListener{
 			initrusttable(size);
 		}
 		
-		if (SimClock.getTime() - lastRecord >= interval && count <=100) {
+		if (SimClock.getTime() - lastRecord >= interval && count <100) {
 			lastRecord = SimClock.getTime();
 			trustcalc(hosts);
 			count++;
@@ -56,7 +60,10 @@ public class TrustReport extends Report implements UpdateListener{
 		// this.scen = SimScenario.getInstance();
 		// System.out.println(scen.selfishThreshold);
 		if(scen.selfishBehavior){
-			scen.setAllSelfishDegree();
+			Random r = new Random();
+			int randomThreshold=r.nextInt(29)+40;
+			scen.setAllSelfishDegree(randomThreshold);//[1 0 0 1 1]
+														//[0 0 0 0]
 			int j=0;
 			for(DTNHost h: hosts)
 			{
@@ -92,5 +99,7 @@ public class TrustReport extends Report implements UpdateListener{
 			trustcount.add(0);
 		}
 	}
+
+
 
 }
