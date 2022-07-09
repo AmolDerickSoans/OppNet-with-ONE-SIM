@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.*;
 import java.util.Random;
 import core.Application;
 import core.Connection;
@@ -23,6 +24,7 @@ import core.SimClock;
 import core.SimError;
 import routing.util.RoutingInfo;
 import util.Tuple;
+// import report.StackReport;
 // import core.SimScenario;
 
 // public int val =0;
@@ -110,7 +112,6 @@ public abstract class MessageRouter {
 
 	/** applications attached to the host */
 	private HashMap<String, Collection<Application>> applications = null;
-
 	/**
 	 * Constructor. Creates a new message router based on the settings in
 	 * the given Settings object. Size of the message buffer is read from
@@ -320,7 +321,7 @@ public abstract class MessageRouter {
 		if (m == null) throw new SimError("no message for id " +
 				id + " to send at " + this.host);
 
-		m2 = m.replicate();	// send a replicate of the message
+		m2 = m.replicate();
 		to.receiveMessage(m2, this.host);
 	}
 
@@ -342,18 +343,37 @@ public abstract class MessageRouter {
 	 * than zero if node rejected the message (e.g. DENIED_OLD), value bigger
 	 * than zero if the other node should try later (e.g. TRY_LATER_BUSY).
 	 */
-	int jk=0;
+	Map<String, ArrayList<String>> multiValueMap = new HashMap<String, ArrayList<String>>();
 	public int receiveMessage(Message m, DTNHost from) {
 		Message newMessage = m.replicate();
-	
-			// if(m.getTo()!=getHost()){
-				if(getHost().selfishdegree==1){
-					
-					// System.out.println(getHost()+" : is a blackhole");
-					return DENIED_SELFISH;
-				}
-			// }
-	
+		//enter values for multimap
+		String k=m.getId();
+		if(getHost().toString().equals("S1"))
+		{
+			System.out.println(from.toString()+" --> "+k+" --> "+getHost().toString());
+		}
+
+		if(from.toString().equals("S0"))
+		{
+			multiValueMap.put(k,new ArrayList<String>());
+			multiValueMap.get(k).add(from.toString());
+		}
+		else if(!multiValueMap.containsKey(k))
+		{
+			multiValueMap.put(k,new ArrayList<String>());
+			multiValueMap.get(k).add(getHost().toString());
+		}
+		else
+		{
+			multiValueMap.get(k).add(getHost().toString());
+		}
+		
+
+		if (getHost().toString().equals("S1"))
+		{
+			// trustcal(multiValueMap.get(m.getId()),0);	
+			System.out.println(multiValueMap);
+		}
 
 		this.putToIncomingBuffer(newMessage, from);
 		newMessage.addNodeOnPath(this.host);
@@ -361,19 +381,45 @@ public abstract class MessageRouter {
 		for (MessageListener ml : this.mListeners) {
 			ml.messageTransferStarted(newMessage, from, getHost());
 		}
-		// if(m.getTo()==from)
-		// {
-			// System.out.println(m.getTo()+" : "+getHost());
-			if(getHost().toString().equalsIgnoreCase("WH15"))
-			{
-				jk++;
-				System.out.println(from+" : "+getHost());	
-				// System.out.println("Destination "+ jk);
-			}
 
-		// }
 		return RCV_OK; // superclass always accepts messages
 	}
+
+	// public void trustcal(ArrayList<String> nodes,int check)
+	// {
+	// 	int n= nodes.size();
+	// 	int r=0;
+		
+	// 	if(check==0)
+	// 	{
+
+	// 	}
+	// 	else
+	// 	{
+
+	// 	}
+	// 	for(int i=n;i>=0;i--)
+	// 	{
+	// 		nodes[i].rank+=r;
+	// 		r++;
+	// 	}
+	// 	int lr=Integer.MAX_VALUE;
+	// 	for (int i=0;i<hosts.size();i++)
+	// 	{
+	// 		if(hosts[i].rank<lr)
+	// 		{
+	// 			lr=hosts[i].rank;
+	// 		}
+	// 	}
+	// 	for (int i=0;i<hosts.size();i++)
+	// 	{
+	// 		if(hosts[i].rank==lr)
+	// 		{
+	// 			hosts[i].selfishdegree=1;
+	// 		}
+	// 	}
+		
+	// }
 
 	/**
 	 * This method should be called (on the receiving host) after a message
@@ -531,6 +577,7 @@ public abstract class MessageRouter {
 	 * because it was delivered to final destination.
 	 */
 	public void deleteMessage(String id, boolean drop) {
+		// trustcal(multiValueMap.get(id),1);
 		Message removed = removeFromMessages(id);
 		if (removed == null) throw new SimError("no message for id " +
 				id + " to remove at " + this.host);

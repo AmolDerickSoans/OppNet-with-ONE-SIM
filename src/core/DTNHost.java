@@ -42,6 +42,7 @@ public class DTNHost implements Comparable<DTNHost> {
 	// new params
 	public int selfishdegree;
 	public int color;
+	public int trustval;
 
 	static {
 		DTNSim.registerForReset(DTNHost.class.getCanonicalName());
@@ -67,6 +68,7 @@ public class DTNHost implements Comparable<DTNHost> {
 		this.address = getNextAddress();
 		this.name = groupId+address;
 		this.net = new ArrayList<NetworkInterface>();
+		this.trustval=0;
 
 		for (NetworkInterface i : interf) {
 			NetworkInterface ni = i.replicate();

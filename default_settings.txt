@@ -7,11 +7,11 @@ Scenario.name = default_scenario
 Scenario.simulateConnections = true
 Scenario.updateInterval = 0.1
 # 43200s == 12h
-Scenario.endTime = 20000
+Scenario.endTime = 43200
 
 ##selfish
 Scenario.selfishBehavior= false
-Scenario.selfishThreshold = 40
+Scenario.selfishThreshold = 100
 
 ## Interface-specific settings:
 # type : which interface class the interface belongs to
@@ -89,21 +89,28 @@ Group.color=0
 #2 for BLUE
 
 # group1 (pedestrians) specific settings
-Group1.groupID = p
-Group1.nrofHosts = 15
-Group1.color=2
-Group1.speed = 1.5, 1.9
+
+Group1.groupID = S
+Group1.nrofHosts = 2
+Group1.color=0
+Group1.speed = 0.5,1.2 
+
+Group2.groupID = p
+Group2.nrofHosts = 2
+Group2.color=1
+Group2.speed = 3, 8
 
 # Group1.speed = 0, 0
 
 
 
-Group2.groupID = WH
-Group2.nrofHosts = 1
-Group2.color=1
-Group2.nrofInterfaces = 2
-Group2.interface1 = btInterface
-Group2.interface2=highspeedInterface
+# Group3.groupID = D
+# Group3.nrofHosts = 1
+# Group3.color=1
+# Group3.speed = 0, 0
+# Group2.nrofInterfaces = 2
+# Group2.interface1 = btInterface
+# Group2.interface2=highspeedInterface
 # group2 specific settings
 # Group2.groupID = c
 # cars can drive only on roads
@@ -156,8 +163,8 @@ Events1.interval = 1000,2000
 # Message sizes (500kB - 1MB)
 Events1.size = 500k,1M
 # range of message source/destination addresses
-Events1.hosts = 0,6
-Events1.tohosts = 15,16
+Events1.hosts = 0,1
+Events1.tohosts = 1,2
 # Message ID prefix
 Events1.prefix = M
 
@@ -190,7 +197,7 @@ Report.reportDir = reports/
 Report.granularity = 432
 
 Report.report1 = MessageStatsReport
-Report.report2 = MessageDeliveryReport
+Report.report2 = EventLogReport
 # Report.report3 = UniqueEncountersReport
 # Report.report1 = SnapshotReport
 # Report.report2 = TrustReport
