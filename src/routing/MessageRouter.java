@@ -348,32 +348,44 @@ public abstract class MessageRouter {
 		Message newMessage = m.replicate();
 		//enter values for multimap
 		String k=m.getId();
-		if(getHost().toString().equals("S1"))
-		{
-			System.out.println(from.toString()+" --> "+k+" --> "+getHost().toString());
-		}
+		// if(getHost().toString().equals("S1"))
+		// {
+			// System.out.println(from.toString()+" --> "+k+" --> "+getHost().toString());
+		// }
 
-		if(from.toString().equals("S0"))
+		if(!multiValueMap.containsKey(k))
 		{
-			multiValueMap.put(k,new ArrayList<String>());
-			multiValueMap.get(k).add(from.toString());
-		}
-		else if(!multiValueMap.containsKey(k))
-		{
-			multiValueMap.put(k,new ArrayList<String>());
-			multiValueMap.get(k).add(getHost().toString());
+			if(from.toString().equals("S0"))
+			{
+				multiValueMap.put(k,new ArrayList<String>());
+				multiValueMap.get(k).add(from.toString());
+				multiValueMap.get(k).add(getHost().toString());
+			}
+			else
+			{
+				// System.out.println(from.toString()+" --> "+k+" --> "+getHost().toString());
+			// System.out.println("hey");
+			}
 		}
 		else
 		{
+			multiValueMap.get(k).add(from.toString());
 			multiValueMap.get(k).add(getHost().toString());
 		}
-		
 
-		if (getHost().toString().equals("S1"))
-		{
+		// else if(!multiValueMap.containsKey(k))
+		// {
+		// 	multiValueMap.put(k,new ArrayList<String>());
+		// 	multiValueMap.get(k).add(getHost().toString());
+		// }
+		
+		// if (getHost().toString().equals("S1"))
+		// {
 			// trustcal(multiValueMap.get(m.getId()),0);	
-			System.out.println(multiValueMap);
-		}
+			// System.out.println(multiValueMap);
+			// multiValueMap.get(k).add(getHost().toString());
+		// }
+		// System.out.println(multiValueMap);
 
 		this.putToIncomingBuffer(newMessage, from);
 		newMessage.addNodeOnPath(this.host);
@@ -578,6 +590,7 @@ public abstract class MessageRouter {
 	 */
 	public void deleteMessage(String id, boolean drop) {
 		// trustcal(multiValueMap.get(id),1);
+		// System.out.println(id+" deleted");
 		Message removed = removeFromMessages(id);
 		if (removed == null) throw new SimError("no message for id " +
 				id + " to remove at " + this.host);

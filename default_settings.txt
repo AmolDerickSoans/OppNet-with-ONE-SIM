@@ -62,7 +62,7 @@ Scenario.nrofHostGroups = 2
 # Common settings for all groups
 Group.movementModel = ShortestPathMapBasedMovement
 Group.router = EpidemicRouter
-Group.bufferSize = 5M
+Group.bufferSize = 50M
 Group.waitTime = 0, 120
 # Group.color=BLUE
 # All nodes have the bluetooth interface
@@ -93,12 +93,12 @@ Group.color=0
 Group1.groupID = S
 Group1.nrofHosts = 2
 Group1.color=0
-Group1.speed = 0.5,1.2 
+# Group1.speed = 0,0 
 
 Group2.groupID = p
-Group2.nrofHosts = 2
+Group2.nrofHosts = 14
 Group2.color=1
-Group2.speed = 3, 8
+Group2.speed = 1.5, 1.9
 
 # Group1.speed = 0, 0
 
