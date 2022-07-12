@@ -343,49 +343,16 @@ public abstract class MessageRouter {
 	 * than zero if node rejected the message (e.g. DENIED_OLD), value bigger
 	 * than zero if the other node should try later (e.g. TRY_LATER_BUSY).
 	 */
-	Map<String, ArrayList<String>> multiValueMap = new HashMap<String, ArrayList<String>>();
+
 	public int receiveMessage(Message m, DTNHost from) {
 		Message newMessage = m.replicate();
-		//enter values for multimap
-		String k=m.getId();
-		// if(getHost().toString().equals("S1"))
-		// {
-			// System.out.println(from.toString()+" --> "+k+" --> "+getHost().toString());
-		// }
-
-		if(!multiValueMap.containsKey(k))
-		{
-			if(from.toString().equals("S0"))
-			{
-				multiValueMap.put(k,new ArrayList<String>());
-				multiValueMap.get(k).add(from.toString());
-				multiValueMap.get(k).add(getHost().toString());
-			}
-			else
-			{
-				// System.out.println(from.toString()+" --> "+k+" --> "+getHost().toString());
-			// System.out.println("hey");
-			}
-		}
-		else
-		{
-			multiValueMap.get(k).add(from.toString());
-			multiValueMap.get(k).add(getHost().toString());
-		}
-
-		// else if(!multiValueMap.containsKey(k))
-		// {
-		// 	multiValueMap.put(k,new ArrayList<String>());
-		// 	multiValueMap.get(k).add(getHost().toString());
-		// }
 		
-		// if (getHost().toString().equals("S1"))
-		// {
-			// trustcal(multiValueMap.get(m.getId()),0);	
-			// System.out.println(multiValueMap);
-			// multiValueMap.get(k).add(getHost().toString());
-		// }
-		// System.out.println(multiValueMap);
+		if(getHost().toString().equals("S1"))
+		{
+			// System.out.println(from.toString()+" --> "+k+" --> "+getHost().toString());
+			System.out.println(m.getHops());
+			trustcal(m.getHops(),0);
+		}
 
 		this.putToIncomingBuffer(newMessage, from);
 		newMessage.addNodeOnPath(this.host);
@@ -397,41 +364,16 @@ public abstract class MessageRouter {
 		return RCV_OK; // superclass always accepts messages
 	}
 
-	// public void trustcal(ArrayList<String> nodes,int check)
-	// {
-	// 	int n= nodes.size();
-	// 	int r=0;
-		
-	// 	if(check==0)
-	// 	{
+	public void trustcal(List<DTNHost> nodes,int check)
+	{
+		int r = (check==0) ? 1 : -1;	
 
-	// 	}
-	// 	else
-	// 	{
-
-	// 	}
-	// 	for(int i=n;i>=0;i--)
-	// 	{
-	// 		nodes[i].rank+=r;
-	// 		r++;
-	// 	}
-	// 	int lr=Integer.MAX_VALUE;
-	// 	for (int i=0;i<hosts.size();i++)
-	// 	{
-	// 		if(hosts[i].rank<lr)
-	// 		{
-	// 			lr=hosts[i].rank;
-	// 		}
-	// 	}
-	// 	for (int i=0;i<hosts.size();i++)
-	// 	{
-	// 		if(hosts[i].rank==lr)
-	// 		{
-	// 			hosts[i].selfishdegree=1;
-	// 		}
-	// 	}
-		
-	// }
+		for(DTNHost j:nodes)
+		{
+			j.trustval+=r;
+			r=r+r;
+		}
+	}
 
 	/**
 	 * This method should be called (on the receiving host) after a message
