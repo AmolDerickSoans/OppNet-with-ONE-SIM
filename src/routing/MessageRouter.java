@@ -343,13 +343,13 @@ public abstract class MessageRouter {
 	 * than zero if node rejected the message (e.g. DENIED_OLD), value bigger
 	 * than zero if the other node should try later (e.g. TRY_LATER_BUSY).
 	 */
+		// System.out.println(from.toString()+" --> "+k+" --> "+getHost().toString());
 
 	public int receiveMessage(Message m, DTNHost from) {
 		Message newMessage = m.replicate();
 		
 		if(getHost().toString().equals("S1"))
 		{
-			// System.out.println(from.toString()+" --> "+k+" --> "+getHost().toString());
 			System.out.println(m.getHops());
 			trustcal(m.getHops(),0);
 		}
