@@ -24,10 +24,8 @@ import core.SimClock;
 import core.SimError;
 import routing.util.RoutingInfo;
 import util.Tuple;
-// import report.StackReport;
+import java.math.*;
 // import core.SimScenario;
-
-// public int val =0;
 /**
  * Superclass for message routers.
  */
@@ -103,12 +101,14 @@ public abstract class MessageRouter {
 	private HashMap<String, Object> blacklistedMessages;
 	/** Host where this router belongs to */
 	private DTNHost host;
+	// private SimScenario scen;
 	/** size of the buffer */
 	private long bufferSize;
 	/** TTL for all messages */
 	protected int msgTtl;
 	/** Queue mode for sending messages */
 	private int sendQueueMode;
+	public boolean detection=true;
 
 	/** applications attached to the host */
 	private HashMap<String, Collection<Application>> applications = null;
@@ -347,13 +347,21 @@ public abstract class MessageRouter {
 
 	public int receiveMessage(Message m, DTNHost from) {
 		Message newMessage = m.replicate();
-		
-		if(getHost().toString().equals("S1"))
-		{
-			System.out.println(m.getHops());
-			trustcal(m.getHops(),0);
-		}
 
+		if(detection)
+		{
+			if(getHost().toString().equals("p2"))
+			{
+				// System.out.println(getHost().toString());
+				return DENIED_SELFISH;
+			}
+			else if(getHost().toString().equals("S1"))
+			{
+				System.out.println(m.getHops());
+				System.out.println();
+				trustcal(m.getHops(),0);
+			}
+		}
 		this.putToIncomingBuffer(newMessage, from);
 		newMessage.addNodeOnPath(this.host);
 
@@ -367,12 +375,39 @@ public abstract class MessageRouter {
 	public void trustcal(List<DTNHost> nodes,int check)
 	{
 		int r = (check==0) ? 1 : -1;	
+		double mean=0.0;
+		int largetrust=Integer.MIN_VALUE;
 
 		for(DTNHost j:nodes)
 		{
 			j.trustval+=r;
 			r=r+r;
 		}
+		for(DTNHost j:nodes)
+		{
+			// System.out.println(j.toString()+" : "+j.trustval);
+			mean+=j.trustval;
+			if(j.trustval >largetrust)
+			{
+				largetrust=j.trustval;
+				// DTNHost node = j;
+			}
+		}
+		mean /= nodes.size();
+
+		if(mean*1.5<largetrust)
+		{
+			for (DTNHost j:nodes)
+			{
+				if(largetrust==j.trustval)
+				{
+					j.selfishdegree=1;
+					System.out.println(j.toString()+" is badd!!!!!");
+				}
+			}
+		}
+		// System.out.println(largetrust+" : "+mean);
+		System.out.println("------------");
 	}
 
 	/**
@@ -531,8 +566,12 @@ public abstract class MessageRouter {
 	 * because it was delivered to final destination.
 	 */
 	public void deleteMessage(String id, boolean drop) {
-		// trustcal(multiValueMap.get(id),1);
 		// System.out.println(id+" deleted");
+		// if(detection)
+		// {
+		// 	trustcal(getMessage(id).getHops(), 1);
+		// }
+		
 		Message removed = removeFromMessages(id);
 		if (removed == null) throw new SimError("no message for id " +
 				id + " to remove at " + this.host);

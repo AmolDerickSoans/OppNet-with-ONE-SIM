@@ -420,6 +420,8 @@ public class SimScenario implements Serializable {
 						this.movementListeners,	gid, interfaces, comBus,
 						mmProto, mRouterProto);
 						host.color=gcolor;
+						host.trustval=0;
+						host.selfishdegree=0;
 						// setgroupcolor(gcolor)
 				hosts.add(host);
 			}

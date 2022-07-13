@@ -3,6 +3,7 @@
 #
 
 ## Scenario settings
+# Scenario.name = [default_scenario;scenario 1]
 Scenario.name = default_scenario
 Scenario.simulateConnections = true
 Scenario.updateInterval = 0.1
@@ -64,13 +65,9 @@ Group.movementModel = ShortestPathMapBasedMovement
 Group.router = EpidemicRouter
 Group.bufferSize = 5M
 Group.waitTime = 0, 120
-# Group.color=BLUE
-# All nodes have the bluetooth interface
 Group.nrofInterfaces = 1
 Group.interface1 = btInterface
-# Walking speeds
 Group.speed = 0.5, 1.5
-# Message TTL of 300 minutes (5 hours)
 Group.msgTtl = 1000
 
 # Group.nrofHosts = 10
@@ -83,6 +80,7 @@ Group.baseEnergy = 0.07
 Group.charging_cofficient = 20
 Group.threshold_energy = 3000
 Group.color=0
+# Group.detection=true
 
 #0 for RED 
 #1 for GREEN 
