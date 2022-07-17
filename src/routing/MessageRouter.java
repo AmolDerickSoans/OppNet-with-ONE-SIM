@@ -108,7 +108,8 @@ public abstract class MessageRouter {
 	protected int msgTtl;
 	/** Queue mode for sending messages */
 	private int sendQueueMode;
-	public boolean detection=true;
+	public boolean detection=false;
+	// public boolean detection=true;
 
 	/** applications attached to the host */
 	private HashMap<String, Collection<Application>> applications = null;
@@ -348,20 +349,26 @@ public abstract class MessageRouter {
 	public int receiveMessage(Message m, DTNHost from) {
 		Message newMessage = m.replicate();
 
-		if(detection)
+		if(getHost().toString().equals("S1"))
 		{
-			if(getHost().toString().equals("p2"))
+			// int s=m.getHops().size();
+			if(detection)
 			{
-				// System.out.println(getHost().toString());
-				return DENIED_SELFISH;
-			}
-			else if(getHost().toString().equals("S1"))
-			{
-				System.out.println(m.getHops());
-				System.out.println();
-				trustcal(m.getHops(),0);
-			}
+				for ( DTNHost j: m.getHops())
+				{
+					if(checker(j))
+					{
+						return DENIED_SELFISH;
+					}					
+				}
+			}	
+			System.out.println(m.getHops());
+			System.out.println();
+			trustcal(m.getHops(),0);
+			
 		}
+
+
 		this.putToIncomingBuffer(newMessage, from);
 		newMessage.addNodeOnPath(this.host);
 
@@ -372,41 +379,71 @@ public abstract class MessageRouter {
 		return RCV_OK; // superclass always accepts messages
 	}
 
+	public boolean checker(DTNHost n)
+	{
+		if(n.trustval==-1)
+		{
+			return true;
+		}
+		return false;
+	}
+
 	public void trustcal(List<DTNHost> nodes,int check)
 	{
 		int r = (check==0) ? 1 : -1;	
 		double mean=0.0;
 		int largetrust=Integer.MIN_VALUE;
 
+		int k=0;
+		ArrayList<Integer> toremove = new ArrayList<Integer>();
+
 		for(DTNHost j:nodes)
 		{
-			j.trustval+=r;
-			r=r+r;
+			if(j.trustval==-1 && detection)
+			{
+				toremove.add(k);
+				r=r+r;
+			}
+			else
+			{
+				j.trustval+=r;
+				r=r+r;
+			}
+			k++;
 		}
+		if(!toremove.isEmpty())
+		{
+			for(int i=0;i<toremove.size();i++)
+			{
+				nodes.remove(toremove.get(i));
+			}
+		}
+
+
+
 		for(DTNHost j:nodes)
 		{
-			// System.out.println(j.toString()+" : "+j.trustval);
 			mean+=j.trustval;
+			System.out.println(j.toString()+" : "+j.trustval);
 			if(j.trustval >largetrust)
 			{
 				largetrust=j.trustval;
-				// DTNHost node = j;
 			}
 		}
 		mean /= nodes.size();
 
-		if(mean*1.5<largetrust)
+		if(mean*1.5<largetrust && detection)
 		{
 			for (DTNHost j:nodes)
 			{
 				if(largetrust==j.trustval)
 				{
-					j.selfishdegree=1;
-					System.out.println(j.toString()+" is badd!!!!!");
+					j.trustval=-1;
+					// System.out.println(j.toString()+" is badd!!!!!");
 				}
 			}
+			System.out.println(largetrust+" : "+mean);
 		}
-		// System.out.println(largetrust+" : "+mean);
 		System.out.println("------------");
 	}
 
